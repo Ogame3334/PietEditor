@@ -8,10 +8,12 @@
 namespace OgameWindow {
 
 	void ColorDish::LButtonDown() {
-		User::State::SetDrawingColorID(m_id);
-		/*if (User::Setting::GetInputMode() == 1) {
-			ColorSelect::SetNowCursorPos(m_id);
-		}*/
+		if (m_id != 20) {
+			User::State::SetDrawingColorID(m_id);
+			/*if (User::Setting::GetInputMode() == 1) {
+				ColorSelect::SetNowCursorPos(m_id);
+			}*/
+		}
 	}
 	void ColorDish::RButtonDown() {
 		if (m_id < 18) {
@@ -20,7 +22,7 @@ namespace OgameWindow {
 	}
 
 	void ColorDish::WriteOrder(Point pos, Font font) {
-		font(m_Order).draw(TextStyle::Outline(0.15, Palette::White), Arg::center = Point(pos.x + Size / 2, pos.y + Size / 2), Palette::Black);
+		font(m_Order).draw(TextStyle::Outline(0.30, Palette::White), Arg::center = Point(pos.x + Size / 2, pos.y + Size / 2), Palette::Black);
 	}
 
 	void ColorDish::Draw() {
@@ -39,7 +41,7 @@ namespace OgameWindow {
 			m_Color = Constants::Colors[id];
 			m_Order = U"";
 		}
-		ClickableObject::SetClickableRange(m_outline);
+		SetClickableRange(m_outline);
 		ClickableObject::Update(pos);
 	}
 }

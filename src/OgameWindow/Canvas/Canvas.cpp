@@ -23,7 +23,7 @@ namespace OgameWindow {
 				//double temp = Mouse::Wheel() - 4;
 				//int zoomDelta = ((int)(temp) >= 2) ? temp : 2;
 				//Console << zoomDelta;
-				Codel::SetCodelSize(Codel::GetCodelSize() - Mouse::Wheel());
+				Codel::SetCodelSize(Codel::GetCodelSize() - (int)Mouse::Wheel());
 			}
 			else if (KeyLShift.pressed()) {
 				Move(Point(-(int)Mouse::Wheel() * 10, 0));
@@ -69,20 +69,15 @@ namespace OgameWindow {
 	}
 
 	void Canvas::InputUpdate() {
-		for (int y = 0; y < m_CanvasSize.y; y++) {
-			for (int x = 0; x < m_CanvasSize.x; x++) {
-				m_Codels[x + y * m_CanvasSize.x].InputUpdate();
+		if (Judge::isCursorInRect(GetClickableRange())) {
+			for (int y = 0; y < m_CanvasSize.y; y++) {
+				for (int x = 0; x < m_CanvasSize.x; x++) {
+					m_Codels[x + y * m_CanvasSize.x].InputUpdate();
+				}
 			}
 		}
 		UserInput();
-		if (Judge::isCursorInRect(GetClickableRange())) {
-			if (MouseL.down()) LButtonDown();
-			if (MouseL.pressed()) LButtonPressed();
-			if (MouseL.up()) LButtonUp();
-			if (MouseR.down()) RButtonDown();
-			if (MouseR.pressed()) RButtonPressed();
-			if (MouseR.up()) RButtonUp();
-		}
+		ClickableObject::InputUpdate();
 	}
 
 	void Canvas::Update(Point pos) {

@@ -21,21 +21,46 @@ namespace OgameWindow {
 		return temp;
 	}
 
-	MenuBox::MenuBox() {
-		bool isJapanese = User::Setting::GetIsJapanese();
-		m_Buttons.push_back(MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save"));
-		m_Buttons.push_back(MenuButton(U"Exit", (isJapanese) ? U"終了" : U"Exit"));
-		m_Outline = Rect{ 0, 0, 80, CalcHeight() + 6 };
+	void MenuBox::Append(MenuButton button) {
+		m_Buttons << button;
+		m_Outline.setSize(m_Outline.w, CalcHeight());
 	}
 
-	void MenuBox::Draw(Point pos) {
-		m_Outline.x = pos.x;
-		m_Outline.y = pos.y;
+	MenuBox::MenuBox() {
+		m_Outline = Rect{ 0, 0, -1, 0 };
+		m_ID = -1;
+	}
+
+	MenuBox::MenuBox(int width, int id) {
+		//bool isJapanese = User::Setting::GetIsJapanese();
+		//m_Buttons.push_back(MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", width));
+		//m_Buttons.push_back(MenuButton(U"Exit", (isJapanese) ? U"終了" : U"Exit", width));
+		m_Outline = Rect{ 0, 0, width, 0 };
+		m_ID = id;
+	}
+
+	void MenuBox::Draw() {
+		Point pos = GetPosition();
 		m_Outline.draw(Palette::Lightgray);
 		m_Outline.drawFrame(1, 0, Palette::Black);
+		
+		for (auto& button : m_Buttons) {
+			button.Draw();
+		}
+	}
+
+	void MenuBox::InputUpdate() {
+		for (auto& button : m_Buttons) {
+			button.InputUpdate();
+		}
+	}
+
+	void MenuBox::Update(Point pos) {
+		DisplayObject::Update(pos);
+		m_Outline.pos = pos;
 		int i = 0;
-		for (auto button : m_Buttons) {
-			button.Put(pos + Point(3, button.GetSize().y * i + 3));
+		for (auto& button : m_Buttons) {
+			button.Update(pos + Point(3, button.GetSize().y * i + 3));
 			i++;
 		}
 	}

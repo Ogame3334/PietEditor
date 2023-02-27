@@ -13,7 +13,7 @@ namespace OgameWindow {
 		inline static int Size = 70;
 
 		Rect m_outline;
-		Font m_Font{ FontMethod::MSDF, 18, Typeface::Bold };
+		Font m_Font{ FontMethod::MSDF, 16, Typeface::Black };
 
 	public:
 		ColorDish(int id) :

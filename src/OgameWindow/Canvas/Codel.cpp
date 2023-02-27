@@ -15,12 +15,6 @@ namespace OgameWindow {
 		if (Judge::isCursorInRect(m_Tile))
 			User::State::SetDrawingColorID(m_ColorID);
 	}
-
-	void Codel::InputUpdate() {
-		if (Judge::isCursorInRect(Canvas)) {
-			ClickableObject::InputUpdate();
-		}
-	}
 	void Codel::Draw() {
 		Point pos = DisplayObject::GetPosition();
 		m_Tile = Rect{ pos.x, pos.y, CodelSize, CodelSize };

@@ -1,29 +1,37 @@
 ﻿#pragma once
 
 #include <Siv3D.hpp>
+#include "../../ParentClass/ClickableObject.h"
 
 namespace OgameWindow {
-	class MenuButton {
+	class MenuButton : public ClickableObject{
 	private:
-		String m_idName;
-		String m_displayName;
-		Point m_size;
+		String m_IdName;
+		String m_DisplayName;
+		int m_Width;
 
-		Font m_font{ 12 , Typeface::CJK_Regular_JP };
+		std::function<void()> m_Function;
+
+		Font m_Font{ 12 , Typeface::CJK_Regular_JP };
 
 		//bool isDown = false;
 		//bool isUp = false;
 
-		int Draw(Point pos);
 
 		void Clicked();
 	public:
 		MenuButton(String id_name, String display_name);
+		MenuButton(String id_name, String display_name, int width);
 
-		String GetIDName(void) const { return m_idName; }
-		String GetDisplayName(void) const { return m_displayName; }
-		Point GetSize(void) const { return m_size; }
+		void SetFunction(std::function<void()> function) { m_Function = function; };
+		std::function<void()> GetFunction() { return m_Function; };
+		void RemoveFunction() { m_Function = []() { return; }; };
+		String GetIDName(void) const { return m_IdName; }
+		String GetDisplayName(void) const { return m_DisplayName; }
 
-		int Put(Point pos);
+		void LButtonDown() override;
+
+		void Draw() override;
+		void Update(Point pos) override;
 	};
 }

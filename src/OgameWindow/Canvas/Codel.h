@@ -26,7 +26,6 @@ namespace OgameWindow{
 			Canvas = canvas;
 		}
 		void Draw() override;
-		void InputUpdate() override;
 		void Update(Point pos) override;
 	};
 }

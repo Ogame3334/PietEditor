@@ -21,7 +21,7 @@ namespace OgameWindow {
 		m_Tile.draw(Constants::Colors[m_ColorID]);
 		m_Tile.drawFrame(1, 0, Palette::Gray);
 	}
-	void Codel::Update(Point pos) {
+	void Codel::Update(const Point& pos) {
 		DisplayObject::SetSize(Point(m_Tile.w, m_Tile.h));
 		ClickableObject::SetClickableRange(m_Tile);
 		ClickableObject::Update(pos);

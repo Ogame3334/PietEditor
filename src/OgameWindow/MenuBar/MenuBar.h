@@ -13,18 +13,37 @@ namespace OgameWindow {
 		bool m_IsMenuBoxON = false;
 		MenuBox m_MenuBox{};
 
+		/// @brief メニューボタンの挙動を設定する
 		void ButtonFunctionSetUp();
 	public:
+		/// @brief コンストラクタ
 		MenuBar();
 
-		void SetMenuBox(MenuBox box) { m_MenuBox = box; };
-		void RemoveMenuBox() { m_MenuBox = MenuBox(); };
-		MenuBox GetMenuBox() const { return m_MenuBox; };
+		/// @brief メニューボックスを設定する
+		/// @param box メニューボックス
+		void SetMenuBox(const MenuBox& box) { m_MenuBox = box; }
 
-		void ToggleMenuBox(MenuBox box);
+		/// @brief メニューボックスを削除する
+		void RemoveMenuBox() { m_MenuBox = MenuBox(); }
 
+		/// @brief メニューボックスを取得する
+		/// @return メニューボックス
+		MenuBox GetMenuBox() const { return m_MenuBox; }
+
+		/// @brief メニューボックスを表示、削除などを切り替える
+		/// @param box 
+		void ToggleMenuBox(const MenuBox& box);
+
+		/// @brief オブジェクトを画面に表示する関数
+		/// @brief whileでUpdate, InputUpdateの後に呼び出される
 		void Draw() override;
+
+		/// @brief ユーザーの入力を受け付ける
+		/// @brief whileでUpdateの後に呼ばれる
 		void InputUpdate();
-		void Update(Point pos) override;
+
+		/// @brief オブジェクトの状態を更新するメソッド
+		/// @param pos オブジェクトの座標
+		void Update(const Point& pos) override;
 	};
 }

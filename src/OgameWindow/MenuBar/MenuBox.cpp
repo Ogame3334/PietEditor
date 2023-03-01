@@ -3,7 +3,7 @@
 #include "MenuButton.h"
 
 namespace OgameWindow {
-	int MenuBox::MaxWidth() {
+	/*int MenuBox::MaxWidth() {
 		int max = 0;
 		for (const auto& button : m_Buttons) {
 			if (max < button.GetSize().x) {
@@ -11,7 +11,7 @@ namespace OgameWindow {
 			}
 		}
 		return max;
-	}
+	}*/
 
 	int MenuBox::CalcHeight() {
 		int temp = 0;
@@ -26,8 +26,13 @@ namespace OgameWindow {
 		m_Outline.setSize(m_Outline.w, CalcHeight());
 	}
 
+	void MenuBox::SetButtonFunction(int num, std::function<void()> func) {
+		auto& button = m_Buttons[num];
+		button.SetFunction(func);
+	}
+
 	MenuBox::MenuBox() {
-		m_Outline = Rect{ 0, 0, -1, 0 };
+		m_Outline = Rect{ 0, 0, 0, 0 };
 		m_ID = -1;
 	}
 
@@ -41,8 +46,8 @@ namespace OgameWindow {
 
 	void MenuBox::Draw() {
 		Point pos = GetPosition();
-		m_Outline.draw(Palette::Lightgray);
-		m_Outline.drawFrame(1, 0, Palette::Black);
+		//m_Outline.draw(Palette::Lightgray);
+		//m_Outline.drawFrame(1, 0, Palette::Black);
 		
 		for (auto& button : m_Buttons) {
 			button.Draw();
@@ -55,12 +60,12 @@ namespace OgameWindow {
 		}
 	}
 
-	void MenuBox::Update(Point pos) {
+	void MenuBox::Update(const Point& pos) {
 		DisplayObject::Update(pos);
 		m_Outline.pos = pos;
 		int i = 0;
 		for (auto& button : m_Buttons) {
-			button.Update(pos + Point(3, button.GetSize().y * i + 3));
+			button.Update(pos + Point(0, button.GetSize().y * i + 3));
 			i++;
 		}
 	}

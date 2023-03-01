@@ -6,18 +6,15 @@ namespace OgameWindow {
 	void MenuBar::ButtonFunctionSetUp() {
 		bool isJapanese = User::Setting::GetIsJapanese();
 		MenuBox temp_menubox{ 150 , 0 };
-		temp_menubox.SetPosition(Point(0, 20));
+		temp_menubox.SetPosition(Point(2, 20));
 		temp_menubox.Append(OgameWindow::MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", temp_menubox.GetWidth()));
 		temp_menubox.Append(OgameWindow::MenuButton(U"Exit", (isJapanese) ? U"終了" : U"Exit", temp_menubox.GetWidth()));
-		Console << temp_menubox.GetOutline().size;
-		Array<MenuButton> buttons = temp_menubox.GetButtons();
-		buttons[0].SetFunction([]() { Console << U"保存"; });
-		buttons[1].SetFunction([]() { System::Exit(); });
+		temp_menubox.SetButtonFunction(0, []() {});
+		temp_menubox.SetButtonFunction(1, []() { System::Exit(); });
 		m_Buttons[0].SetFunction([this, temp_menubox]() { MenuBar::ToggleMenuBox(temp_menubox); });
-		m_Buttons[1].SetFunction([]() { Console << U"やあ"; });
 	}
 
-	void MenuBar::ToggleMenuBox(MenuBox box) {
+	void MenuBar::ToggleMenuBox(const MenuBox& box) {
 		MenuBox menuBox = GetMenuBox();
 		if (not m_IsMenuBoxON) {
 			SetMenuBox(box);
@@ -51,11 +48,11 @@ namespace OgameWindow {
 	void MenuBar::Draw() {
 		Rect rect{ 0, 0, Window::GetState().virtualSize.x, 25 };
 		SetSize(Point(rect.w, rect.h));
-		rect.draw();
+		rect.draw(User::Setting::GetTheme().GetMenuBarBackGroundColor());
 		for (auto& button : m_Buttons) {
 			button.Draw();
 		}
-		if (m_MenuBox.GetWidth() != -1) {
+		if (m_MenuBox.GetID() != -1) {
 			m_MenuBox.Draw();
 		}
 	}
@@ -69,28 +66,24 @@ namespace OgameWindow {
 		else {
 			if (MouseL.down()) {
 				if (Judge::isCursorInRect(m_MenuBox.GetOutline())) {
-					for (auto& button : m_Buttons) {
-						button.InputUpdate();
-					}
-					Console << U"ボタン押した";
+					m_MenuBox.InputUpdate();
 				}
 				else {
-					//RemoveMenuBox();
-					//m_IsMenuBoxON = false;
-					Console << m_MenuBox.GetOutline().size;
+					RemoveMenuBox();
+					m_IsMenuBoxON = false;
 				}
 			}
 		}
 	}
 
-	void MenuBar::Update(Point pos) {
+	void MenuBar::Update(const Point& pos) {
 		int put_x = 0;
 		for (auto& button : m_Buttons) {
 			//Console << pos + Point(put_x + 2, 2);
 			button.Update(pos + Point(put_x + 2, 2));
 			put_x += button.GetSize().x;
 		}
-		if (m_MenuBox.GetWidth() != -1) {
+		if (m_MenuBox.GetID() != -1) {
 			m_MenuBox.Update(m_MenuBox.GetPosition());
 		}
 		DisplayObject::Update(pos);

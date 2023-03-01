@@ -21,19 +21,19 @@ namespace OgameWindow {
 		}
 	}
 
-	void ColorDish::WriteOrder(Point pos, Font font) {
-		font(m_Order).draw(TextStyle::Outline(0.30, Palette::White), Arg::center = Point(pos.x + Size / 2, pos.y + Size / 2), Palette::Black);
+	void ColorDish::WriteOrder(const Point& pos, const Font& font) {
+		font(m_Order).draw(TextStyle::Outline(0.30, Palette::White), Arg::center = Point(pos.x + Size / 2, pos.y + Size / 2), User::Setting::GetTheme().GetColorDishFontColor());
 	}
 
 	void ColorDish::Draw() {
 		Point pos = DisplayObject::GetPosition();
 		m_outline = Rect{ pos.x, pos.y, Size - 2, Size - 2 };
 		Rect color{ pos.x + 3, pos.y + 3, Size - 8, Size - 8 };
-		m_outline.drawFrame(1, 0, Palette::Black);
+		m_outline.drawFrame(1, 0, User::Setting::GetTheme().GetColorDishOutlineColor());
 		color.draw(m_Color);
 		WriteOrder(pos, m_Font);
 	}
-	void ColorDish::Update(Point pos) {
+	void ColorDish::Update(const Point& pos) {
 		if (m_id < 18)
 			m_Order = Constants::Orders[Constants::Calc::ColorIDSub(m_id)];
 		if (m_id == 20) {

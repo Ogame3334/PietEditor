@@ -1,13 +1,15 @@
 ﻿#include "Debug.h"
 
 namespace Debug {
-	void Display(Point& pos, Font debugFont) {
+	void Display(Point& pos, const Font& debugFont) {
 		ClearPrint();
 		if (isDebugMode) {
 			auto temp = debugFont(U"FrameBufferSize: ", Window::GetState().frameBufferSize,
 				U"\nVirtualSize: ", Window::GetState().virtualSize,
 				U"\nSceneSize: ", Scene::Size(),
 				U"\nCursorPosition: ", Cursor::Pos(),
+				U"\nThemeID: ", User::Setting::GetThemeID(),
+				U"\nThemeName: ", User::Setting::GetTheme().GetEnglishName(),
 				U"\nUserState DrawingColorID: ", User::State::GetDrawingColorID(),
 				U"\nUserState SelectedColorID: ", User::State::GetSelectedColorID(),
 				U"\nColorSelect NowCursorPos: ", OgameWindow::ColorSelect::GetNowCursorPos(),

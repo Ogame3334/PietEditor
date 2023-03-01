@@ -3,10 +3,10 @@
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	void Canvas::Move(Point pos) {
+	void Canvas::Move(const Point& pos) {
 		m_LocalPos += pos;
 	}
-	void Canvas::Reload(void) {
+	void Canvas::Reload() {
 		m_Codels = {};
 		for (int y = 0; y < m_CanvasSize.y; y++) {
 			for (int x = 0; x < m_CanvasSize.x; x++) {
@@ -59,7 +59,7 @@ namespace OgameWindow {
 		}
 	}
 
-	Canvas::Canvas(Point pos) {
+	Canvas::Canvas(const Point& pos) {
 		SetPosition(pos);
 		m_Background = CanvasBackground(pos);
 		SetClickableRange(m_Background.GetOutline());
@@ -80,7 +80,7 @@ namespace OgameWindow {
 		ClickableObject::InputUpdate();
 	}
 
-	void Canvas::Update(Point pos) {
+	void Canvas::Update(const Point& pos) {
 		Codel::SetCanvas(m_Background.GetOutline());
 		SetClickableRange(m_Background.GetOutline());
 		int codelSize = Codel::GetCodelSize();
@@ -91,6 +91,7 @@ namespace OgameWindow {
 					pos.y + m_LocalPos.y + canvasSize.y / 2 + codelSize * (y - m_CanvasSize.y / 2) - y - canvasSize.y / 2));
 			}
 		}
+		m_Background.Update(pos);
 		DisplayObject::SetSize(Point(m_CanvasSize.x * Codel::GetCodelSize(), m_CanvasSize.y * Codel::GetCodelSize()));
 		DisplayObject::Update(pos);
 	}

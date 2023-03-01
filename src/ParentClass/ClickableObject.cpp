@@ -17,7 +17,7 @@ void ClickableObject::InputUpdate() {
 	}
 }
 
-void ClickableObject::Update(Point pos) {
+void ClickableObject::Update(const Point& pos) {
 	DisplayObject::Update(pos);
 	if (Judge::isCursorInRect(m_ClickableRange)) {
 		User::State::SetNowSelectObjectID(GetObjectID());

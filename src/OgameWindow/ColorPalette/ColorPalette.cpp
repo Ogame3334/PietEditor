@@ -4,7 +4,7 @@
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	ColorPalette::ColorPalette(Point pos)
+	ColorPalette::ColorPalette(const Point& pos)
 	{
 		SetPosition(pos);
 		for (int i = 0; i < 21; i++) {
@@ -17,7 +17,7 @@ namespace OgameWindow {
 		Point pos = GetPosition();
 		Point size = GetSize();
 		Rect outline{ pos.x, pos.y, size.x, size.y };
-		outline.drawFrame(1, 0, Palette::Black);
+		outline.drawFrame(1, 0, User::Setting::GetTheme().GetColorPaletteOutlineColor());
 
 		for (int i = 0; i < 21; i++) {
 			m_colorDishes[i].Draw();
@@ -33,7 +33,7 @@ namespace OgameWindow {
 		}
 	}
 
-	void ColorPalette::Update(Point pos) {
+	void ColorPalette::Update(const Point& pos) {
 		int colorDishSize = ColorDish::GetSize();
 		for (int i = 0; i < 21; i++) {
 			if (i < 18) {

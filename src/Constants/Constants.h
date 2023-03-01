@@ -1,6 +1,7 @@
 ﻿#pragma once
 
-#include<Siv3D.hpp>
+#include <Siv3D.hpp>
+#include "Theme.h"
 
 namespace Constants {
 	inline static const Array<Color> Colors = {

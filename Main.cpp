@@ -6,9 +6,12 @@
 #include "src/OgameWindow/MenuBar/MenuBar.h"
 #include "src/OgameWindow/Canvas/Canvas.h"
 #include "src/OgameWindow/Canvas/CanvasBackground.h"
+#include "src/OgameWindow/StatusBar/StatusBar.h"
+#include "src/OgameGUI/OgameGUI.h"
 
 void OptionSetting(void) {
-	Scene::SetBackground(ColorF{ 0.92, 0.92, 0.92 });
+	User::Setting::SetThemeID(0);
+	Scene::SetBackground(User::Setting::GetTheme().GetBackGroundColor());
 	Window::Resize(1280, 720);
 	Window::SetStyle(WindowStyle::Sizable);
 	Window::SetTitle(U"Ogame's PietEditor");
@@ -138,30 +141,51 @@ void Main(){
 	OgameWindow::MenuBar menuBar{};
 	OgameWindow::ColorPalette colorPalette{ Point(10, 35) };
 	OgameWindow::Canvas canvas{ Point(colorPalette.GetSize().x + colorPalette.GetPosition().x + 10, 35) };
-	OgameWindow::MenuBox temp{};
-
+	OgameWindow::StatusBar statusBar{};
+	//OgameWindow::MenuBox menuBox{ 150 };
+	//bool isJapanese = User::Setting::GetIsJapanese();
+	//menuBox.Append(OgameWindow::MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", menuBox.GetWidth()));
+	//menuBox.Append(OgameWindow::MenuButton(U"Exit", (isJapanese) ? U"終了" : U"Exit", menuBox.GetWidth()));
 
 	OptionSetting();
 
 	Font debugFont{ 16 };
 	Point debugPos{ 0, 0 };
 
+	//Console << U"";
+
+	TextEditState temp;
+
+	const Font font{ 30 };
+
+	String text;
+
+	constexpr Rect area{ 50, 50, 700, 300 };
+
 	while (System::Update()) {
+		User::State::SetNowSelectObjectID(-1);
+
 		UserInput(isFullScreen);
 
 		canvas.Update(Point(colorPalette.GetSize().x + colorPalette.GetPosition().x + 10, 35));
 		colorPalette.Update(Point(10, 35));
+		menuBar.Update(Point(0, 0));
+		statusBar.Update(canvas);
+		//menuBox.Update(Point(0, 20));
+
 
 		canvas.InputUpdate();
 		colorPalette.InputUpdate();
+		menuBar.InputUpdate();
 
 		canvas.Draw();
 		colorPalette.Draw();
-
 		menuBar.Draw();
-		temp.Draw(Point(200, 200));
+		statusBar.Draw();
 
-		Debug::Display(debugPos, debugFont);
+		//menuBox.Draw();
+
+		//SimpleGUI::TextBox(temp, Vec2(400, 400));
 
 		/*if (SimpleGUI::Button(U"Exit", Vec2{ 700, 20 }))
 		{

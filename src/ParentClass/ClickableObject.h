@@ -6,18 +6,35 @@ class ClickableObject : public DisplayObject{
 private:
 	Rect m_ClickableRange;
 protected:
-	virtual void LButtonDown() {};
-	virtual void LButtonPressed() {};
-	virtual void LButtonUp() {};
-	virtual void RButtonDown() {};
-	virtual void RButtonPressed() {};
-	virtual void RButtonUp() {};
-	virtual void MButtonDown() {};
-	virtual void MButtonUp() {};
-	virtual void MButtonPressed() {};
-	void SetClickableRange(Rect rect) { m_ClickableRange = rect; };
-	Rect GetClickableRange() { return m_ClickableRange; };
+	/// @brief 左クリックを押した瞬間
+	virtual void LButtonDown() {}
+	/// @brief 左クリックを押している間
+	virtual void LButtonPressed() {}
+	/// @brief 左クリックを離した瞬間
+	virtual void LButtonUp() {}
+	/// @brief 右クリックを押した瞬間
+	virtual void RButtonDown() {}
+	/// @brief 右クリックを押している間
+	virtual void RButtonPressed() {}
+	/// @brief 左クリックを離した瞬間
+	virtual void RButtonUp() {}
+	/// @brief 中クリックを押した瞬間
+	virtual void MButtonDown() {}
+	/// @brief 中クリックを押している間
+	virtual void MButtonPressed() {}
+	/// @brief 中クリックを離した瞬間
+	virtual void MButtonUp() {}
+	/// @brief クリック可能範囲を設定
+	/// @param rect クリック可能範囲
+	void SetClickableRange(const Rect& rect) { m_ClickableRange = rect; }
+	/// @brief クリック可能範囲を取得
+	/// @return クリック可能範囲
+	Rect GetClickableRange() { return m_ClickableRange; }
 public:
+	/// @brief ユーザーの入力を受け付ける
+	/// @brief whileでUpdateの後に呼ばれる
 	virtual void InputUpdate();
-	virtual void Update(Point pos) override;
+	/// @brief オブジェクトの状態を更新するメソッド
+	/// @param pos オブジェクトの座標
+	virtual void Update(const Point& pos) override;
 };

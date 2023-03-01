@@ -59,16 +59,16 @@ namespace OgameWindow {
 		else if (id == 21)
 			NowCursorPos = 12;
 	}*/
-	void ColorSelect::CursorDraw(Point pos, int size) {
+	void ColorSelect::CursorDraw(const Point& pos, int size) {
 		Rect grayLine = Rect{ pos.x + 10, pos.y + 10, size - 14, size - 14 };
 		grayLine.drawFrame(2, 1, Palette::Darkgray);
 		Rect outline = Rect{ pos.x + 10, pos.y + 10, size - 14, size - 14 };
 		outline.drawFrame(1, 0, Palette::Black);
 	}
-	void ColorSelect::Draw(Point pos) {
+	void ColorSelect::Draw(const Point& pos) {
 		CursorDraw(Point(pos.x + ColorDish::GetSize() * (NowCursorPos % 7), pos.y + ColorDish::GetSize() * ((int)(NowCursorPos / 7))), ColorDishSize);
 	}
-	void ColorSelect::Update(Point pos) {
+	void ColorSelect::Update(const Point& pos) {
 		UserInput();
 		NowColorSet();
 		Draw(pos);

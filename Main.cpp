@@ -7,7 +7,8 @@
 #include "src/OgameWindow/Canvas/Canvas.h"
 #include "src/OgameWindow/Canvas/CanvasBackground.h"
 #include "src/OgameWindow/StatusBar/StatusBar.h"
-#include "src/OgameGUI/OgameGUI.h"
+//#include "src/OgameGUI/OgameGUI.h"
+#include "src/OgameWindow/TextBox/ScrollBar.h"
 
 void OptionSetting(void) {
 	User::Setting::SetThemeID(0);
@@ -142,6 +143,8 @@ void Main(){
 	OgameWindow::ColorPalette colorPalette{ Point(10, 35) };
 	OgameWindow::Canvas canvas{ Point(colorPalette.GetSize().x + colorPalette.GetPosition().x + 10, 35) };
 	OgameWindow::StatusBar statusBar{};
+
+	OgameWindow::ScrollBar scrollBar{ 200 };
 	//OgameWindow::MenuBox menuBox{ 150 };
 	//bool isJapanese = User::Setting::GetIsJapanese();
 	//menuBox.Append(OgameWindow::MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", menuBox.GetWidth()));
@@ -172,6 +175,7 @@ void Main(){
 		menuBar.Update(Point(0, 0));
 		statusBar.Update(canvas);
 		//menuBox.Update(Point(0, 20));
+		scrollBar.Update(Point(100, 100));
 
 
 		canvas.InputUpdate();
@@ -182,10 +186,17 @@ void Main(){
 		colorPalette.Draw();
 		menuBar.Draw();
 		statusBar.Draw();
+		scrollBar.Draw();
 
 		//menuBox.Draw();
 
 		//SimpleGUI::TextBox(temp, Vec2(400, 400));
+
+		//SimpleGUI::TextBoxMultipleLines(temp, Point(500, 200), Point(400, 600));
+		Shape2D::Ngon(3, 50, Vec2(500, 500)).draw(Palette::Black);
+		Shape2D::Ngon(3, 50, Vec2(500, 600), 180_deg).draw(Palette::Black);
+
+		Debug::Display(debugPos, debugFont);
 
 		/*if (SimpleGUI::Button(U"Exit", Vec2{ 700, 20 }))
 		{

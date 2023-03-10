@@ -30,6 +30,8 @@ protected:
 	/// @brief クリック可能範囲を取得
 	/// @return クリック可能範囲
 	Rect GetClickableRange() { return m_ClickableRange; }
+	/// @brief カーソルスタイルを変更します
+	void ChangeCursorStyle() { Cursor::RequestStyle(CursorStyle::Hand); }
 public:
 	/// @brief ユーザーの入力を受け付ける
 	/// @brief whileでUpdateの後に呼ばれる

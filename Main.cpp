@@ -8,7 +8,7 @@
 #include "src/OgameWindow/Canvas/CanvasBackground.h"
 #include "src/OgameWindow/StatusBar/StatusBar.h"
 //#include "src/OgameGUI/OgameGUI.h"
-#include "src/OgameWindow/TextBox/ScrollBar.h"
+#include "src/OgameWindow/TextBox/TextBoxMultipleLines.h"
 
 void OptionSetting(void) {
 	User::Setting::SetThemeID(0);
@@ -20,7 +20,7 @@ void OptionSetting(void) {
 	System::SetTerminationTriggers(UserAction::NoAction);
 }
 
-void UserInput(bool& isFullScreen) {
+void UserInput(bool& isFullScreen, bool textBoxIsSelected) {
 	if (KeyF3.down()) {
 		if (Debug::isDebugMode) {
 			Debug::isDebugMode = false;
@@ -52,7 +52,7 @@ void UserInput(bool& isFullScreen) {
 	}
 
 	{
-		if (User::Setting::GetInputMode() == 2) {
+		if (User::Setting::GetInputMode() == 2 and not textBoxIsSelected) {
 			if (KeyQ.down()) {
 				User::State::SetDrawingColorID(0);
 				User::State::SetSelectedColorID(0);
@@ -143,8 +143,10 @@ void Main(){
 	OgameWindow::ColorPalette colorPalette{ Point(10, 35) };
 	OgameWindow::Canvas canvas{ Point(colorPalette.GetSize().x + colorPalette.GetPosition().x + 10, 35) };
 	OgameWindow::StatusBar statusBar{};
+	OgameWindow::TextBoxMultipleLines inputTextBox{ true };
+	OgameWindow::TextBoxMultipleLines outputTextBox{ false };
 
-	OgameWindow::ScrollBar scrollBar{ 200 };
+	//OgameWindow::ScrollBar scrollBar{ 200 , 10, 200};
 	//OgameWindow::MenuBox menuBox{ 150 };
 	//bool isJapanese = User::Setting::GetIsJapanese();
 	//menuBox.Append(OgameWindow::MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", menuBox.GetWidth()));
@@ -157,44 +159,52 @@ void Main(){
 
 	//Console << U"";
 
-	TextEditState temp;
-
-	const Font font{ 30 };
-
 	String text;
 
-	constexpr Rect area{ 50, 50, 700, 300 };
+	TextEditState tempda;
+
+	//constexpr Rect area{ 50, 50, 700, 300 };
 
 	while (System::Update()) {
 		User::State::SetNowSelectObjectID(-1);
 
-		UserInput(isFullScreen);
+		UserInput(isFullScreen, inputTextBox.GetIsSelected());
 
 		canvas.Update(Point(colorPalette.GetSize().x + colorPalette.GetPosition().x + 10, 35));
 		colorPalette.Update(Point(10, 35));
-		menuBar.Update(Point(0, 0));
 		statusBar.Update(canvas);
+
+		Point temp = canvas.GetPosition() + Point(0, canvas.GetBackground().size.y + 50);
+		inputTextBox.Update(temp, Point((Scene::Size().x - temp.x - 20) / 2 - 5, Scene::Size().y - temp.y - statusBar.Height - 30));
+
+		temp = canvas.GetPosition() + Point(inputTextBox.GetSize().x + 10, canvas.GetBackground().size.y + 50);
+		outputTextBox.Update(temp, Point(inputTextBox.GetSize().x, Scene::Size().y - temp.y - statusBar.Height - 30));
+
+		menuBar.Update(Point(0, 0));
 		//menuBox.Update(Point(0, 20));
-		scrollBar.Update(Point(100, 100));
+		//scrollBar.UpdateInt(Point(100, 100));
 
 
 		canvas.InputUpdate();
 		colorPalette.InputUpdate();
+		inputTextBox.InputUpdate();
+		outputTextBox.InputUpdate();
 		menuBar.InputUpdate();
+		//scrollBar.InputUpdate();
 
 		canvas.Draw();
 		colorPalette.Draw();
-		menuBar.Draw();
 		statusBar.Draw();
-		scrollBar.Draw();
+		inputTextBox.Draw();
+		outputTextBox.Draw();
+		menuBar.Draw();
+		//scrollBar.Draw();
 
 		//menuBox.Draw();
 
-		//SimpleGUI::TextBox(temp, Vec2(400, 400));
+		SimpleGUI::TextBox(tempda, Vec2(400, 400));
 
 		//SimpleGUI::TextBoxMultipleLines(temp, Point(500, 200), Point(400, 600));
-		Shape2D::Ngon(3, 50, Vec2(500, 500)).draw(Palette::Black);
-		Shape2D::Ngon(3, 50, Vec2(500, 600), 180_deg).draw(Palette::Black);
 
 		Debug::Display(debugPos, debugFont);
 

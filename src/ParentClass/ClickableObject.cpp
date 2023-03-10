@@ -5,6 +5,7 @@
 
 void ClickableObject::InputUpdate() {
 	if (User::State::GetNowSelectObjectID() == GetObjectID()) {
+		ChangeCursorStyle();
 		if (MouseL.down()) LButtonDown();
 		if (MouseL.pressed()) LButtonPressed();
 		if (MouseL.up()) LButtonUp();

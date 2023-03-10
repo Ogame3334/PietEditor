@@ -6,7 +6,6 @@
 
 namespace OgameWindow {
 	void Codel::LButtonPressed() {
-		Cursor::RequestStyle(CursorStyle::Hand);
 		if (Judge::isCursorInRect(m_Tile)) {
 			m_ColorID = User::State::GetDrawingColorID();
 		}

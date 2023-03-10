@@ -39,7 +39,7 @@ namespace OgameWindow {
 			User::State::SetIsCanvasHold(false);
 		}
 		if (User::State::GetIsCanvasHold()) {
-			Cursor::RequestStyle(CursorStyle::Hand);
+			Cursor::RequestStyle(CursorStyle::Cross);
 			Move(Cursor::Delta());
 		}
 	}

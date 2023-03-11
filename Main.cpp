@@ -146,7 +146,7 @@ void Main(){
 	OgameWindow::TextBoxMultipleLines inputTextBox{ true };
 	OgameWindow::TextBoxMultipleLines outputTextBox{ false };
 
-	//OgameWindow::ScrollBar scrollBar{ 200 , 10, 200};
+	//OgameWindow::ScrollBar scrollBar{ 16, 200 , 10, 200};
 	//OgameWindow::MenuBox menuBox{ 150 };
 	//bool isJapanese = User::Setting::GetIsJapanese();
 	//menuBox.Append(OgameWindow::MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", menuBox.GetWidth()));
@@ -161,7 +161,7 @@ void Main(){
 
 	String text;
 
-	TextEditState tempda;
+	//TextEditState tempda;
 
 	//constexpr Rect area{ 50, 50, 700, 300 };
 
@@ -178,17 +178,17 @@ void Main(){
 		inputTextBox.Update(temp, Point((Scene::Size().x - temp.x - 20) / 2 - 5, Scene::Size().y - temp.y - statusBar.Height - 30));
 
 		temp = canvas.GetPosition() + Point(inputTextBox.GetSize().x + 10, canvas.GetBackground().size.y + 50);
-		outputTextBox.Update(temp, Point(inputTextBox.GetSize().x, Scene::Size().y - temp.y - statusBar.Height - 30));
+		//outputTextBox.Update(temp, Point(inputTextBox.GetSize().x, Scene::Size().y - temp.y - statusBar.Height - 30));
 
 		menuBar.Update(Point(0, 0));
 		//menuBox.Update(Point(0, 20));
-		//scrollBar.UpdateInt(Point(100, 100));
+		//scrollBar.UpdateInt(Point(100, 100), 30);
 
 
 		canvas.InputUpdate();
 		colorPalette.InputUpdate();
 		inputTextBox.InputUpdate();
-		outputTextBox.InputUpdate();
+		//outputTextBox.InputUpdate();
 		menuBar.InputUpdate();
 		//scrollBar.InputUpdate();
 
@@ -196,13 +196,13 @@ void Main(){
 		colorPalette.Draw();
 		statusBar.Draw();
 		inputTextBox.Draw();
-		outputTextBox.Draw();
+		//outputTextBox.Draw();
 		menuBar.Draw();
 		//scrollBar.Draw();
 
 		//menuBox.Draw();
 
-		SimpleGUI::TextBox(tempda, Vec2(400, 400));
+		//SimpleGUI::TextBox(tempda, Vec2(400, 400));
 
 		//SimpleGUI::TextBoxMultipleLines(temp, Point(500, 200), Point(400, 600));
 

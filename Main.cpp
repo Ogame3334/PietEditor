@@ -9,6 +9,7 @@
 #include "src/OgameWindow/StatusBar/StatusBar.h"
 //#include "src/OgameGUI/OgameGUI.h"
 #include "src/OgameWindow/TextBox/TextBoxMultipleLines.h"
+#include "src/OgameWindow/Button/Button.h"
 
 void OptionSetting(void) {
 	User::Setting::SetThemeID(0);
@@ -143,8 +144,9 @@ void Main(){
 	OgameWindow::ColorPalette colorPalette{ Point(10, 35) };
 	OgameWindow::Canvas canvas{ Point(colorPalette.GetSize().x + colorPalette.GetPosition().x + 10, 35) };
 	OgameWindow::StatusBar statusBar{};
-	OgameWindow::TextBoxMultipleLines inputTextBox{ true };
-	OgameWindow::TextBoxMultipleLines outputTextBox{ false };
+	OgameWindow::TextBoxMultipleLines inputTextBox{ true, U"Input" };
+	OgameWindow::TextBoxMultipleLines outputTextBox{ false, U"Output" };
+	OgameWindow::Button button{ U"Run", (User::Setting::GetIsJapanese()) ? U"実行" : U"Run", Point(50, 30), 20 };
 
 	//OgameWindow::ScrollBar scrollBar{ 16, 200 , 10, 200};
 	//OgameWindow::MenuBox menuBox{ 150 };
@@ -178,7 +180,9 @@ void Main(){
 		inputTextBox.Update(temp, Point((Scene::Size().x - temp.x - 20) / 2 - 5, Scene::Size().y - temp.y - statusBar.Height - 30));
 
 		temp = canvas.GetPosition() + Point(inputTextBox.GetSize().x + 10, canvas.GetBackground().size.y + 50);
-		//outputTextBox.Update(temp, Point(inputTextBox.GetSize().x, Scene::Size().y - temp.y - statusBar.Height - 30));
+		outputTextBox.Update(temp, Point(inputTextBox.GetSize().x, Scene::Size().y - temp.y - statusBar.Height - 30));
+
+		button.Update(Point(400, 400));
 
 		menuBar.Update(Point(0, 0));
 		//menuBox.Update(Point(0, 20));
@@ -196,7 +200,8 @@ void Main(){
 		colorPalette.Draw();
 		statusBar.Draw();
 		inputTextBox.Draw();
-		//outputTextBox.Draw();
+		outputTextBox.Draw();
+		button.Draw();
 		menuBar.Draw();
 		//scrollBar.Draw();
 

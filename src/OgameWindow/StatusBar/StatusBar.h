@@ -9,7 +9,7 @@ namespace OgameWindow {
 	class StatusBar : DisplayObject {
 	private:
 		String m_RightString = U"";
-		Font m_Font{ 15, User::Setting::GetTheme().GetStatusBarFont() };
+		Font m_Font{ 15, m_ThemePtr->StatusBarFont };
 
 		void ChangeRightString(const Canvas& canvas);
 	public:

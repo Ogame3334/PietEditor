@@ -17,7 +17,7 @@ namespace OgameWindow {
 		Point pos = GetPosition();
 		Point size = GetSize();
 		Rect outline{ pos.x, pos.y, size.x, size.y };
-		outline.drawFrame(1, 0, User::Setting::GetTheme().GetColorPaletteOutlineColor());
+		outline.drawFrame(1, 0, m_ThemePtr->ColorPaletteOutlineColor);
 
 		for (int i = 0; i < 21; i++) {
 			m_colorDishes[i].Draw();

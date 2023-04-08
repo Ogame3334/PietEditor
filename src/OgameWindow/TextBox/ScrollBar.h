@@ -27,7 +27,6 @@ namespace OgameWindow {
 		void LButtonDown() override;
 
 		void AddBarLocalPosY(int y);
-
 	public:
 		ScrollBar() = default;
 		ScrollBar(uint32 width, int height, int displayHeight, int regionHeight);

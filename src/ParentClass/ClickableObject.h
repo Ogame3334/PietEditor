@@ -5,6 +5,7 @@
 class ClickableObject : public DisplayObject{
 private:
 	Rect m_ClickableRange;
+	bool m_Enable = true;
 protected:
 	/// @brief 左クリックを押した瞬間
 	virtual void LButtonDown() {}
@@ -33,6 +34,8 @@ protected:
 	/// @brief カーソルスタイルを変更します
 	virtual void ChangeCursorStyle() { Cursor::RequestStyle(CursorStyle::Hand); }
 public:
+	void SetEnable(bool enable) { m_Enable = enable; }
+	bool GetEnable() const { return m_Enable; }
 	/// @brief ユーザーの入力を受け付ける
 	/// @brief whileでUpdateの後に呼ばれる
 	virtual void InputUpdate();

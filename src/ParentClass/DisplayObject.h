@@ -1,22 +1,25 @@
 ﻿#pragma once
 
 #include <Siv3D.hpp>
+#include "../User/User.h"
 
 class DisplayObject {
 private:
 	inline static int m_LatestID = 0;
 	int m_ObjectID;
+protected:
 	Point m_Pos;
 	Point m_Size;
-protected:
+	const Theme* m_ThemePtr;
 	/// @brief オブジェクトのIDを取得します
 	/// @return オブジェクトID
 	int GetObjectID() { return m_ObjectID; };
 	/// @brief DisplayObjectの標準コンストラクタ
 	DisplayObject() :
 		m_ObjectID(m_LatestID),
-		m_Pos(Point{0, 0}),
-		m_Size(Point(0, 0))
+		m_Pos(Point{ 0, 0 }),
+		m_Size(Point(0, 0)),
+		m_ThemePtr(User::Setting::GetThemePtr())
 	{
 		m_LatestID++;
 	}

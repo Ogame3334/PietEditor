@@ -38,19 +38,20 @@ namespace OgameWindow {
 		Rect frame = GetClickableRange();
 		Point pos = GetPosition();
 		if (Judge::isCursorInRect(frame) and MouseL.pressed()) {
-			frame.draw(User::Setting::GetTheme().GetMenuButtonBackDownColor());
+			frame.draw(m_ThemePtr->MenuButtonBackDownColor);
 		}
 		else if (Judge::isCursorInRect(frame)) {
-			frame.draw(User::Setting::GetTheme().GetMenuButtonBackActiveColor());
-			frame.drawFrame(2, 0, User::Setting::GetTheme().GetMenuButtonBackColor());
-			frame.drawFrame(1, 0, User::Setting::GetTheme().GetMenuButtonBackDownColor());
+			frame.draw(m_ThemePtr->MenuButtonBackActiveColor);
+			frame.drawFrame(2, 0, m_ThemePtr->MenuButtonBackColor);
+			//frame.drawFrame(1, 0, m_Theme.MenuButtonBackDownColor());
 		}
 		else {
 			//Console << frame.pos;
-			frame.draw(User::Setting::GetTheme().GetMenuButtonBackColor());
+			frame.draw(m_ThemePtr->MenuButtonBackColor);
 		}
+		frame.drawFrame(1, 0, Palette::Black);
 
 		//Console << GetPosition();
-		word.drawAt(pos.x + size.x / 2, pos.y + size.y / 2, User::Setting::GetTheme().GetMenuButtonFontColor());
+		word.drawAt(pos.x + size.x / 2, pos.y + size.y / 2, m_ThemePtr->MenuButtonFontColor);
 	}
 }

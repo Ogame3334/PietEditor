@@ -4,7 +4,7 @@
 #include "../Judge/Judge.h"
 
 void ClickableObject::InputUpdate() {
-	if (User::State::GetNowSelectObjectID() == GetObjectID()) {
+	if (User::State::GetNowSelectObjectID() == GetObjectID() and m_Enable) {
 		ChangeCursorStyle();
 		if (MouseL.down()) LButtonDown();
 		if (MouseL.pressed()) LButtonPressed();

@@ -9,7 +9,7 @@ namespace Debug {
 				U"\nSceneSize: ", Scene::Size(),
 				U"\nCursorPosition: ", Cursor::Pos(),
 				U"\nThemeID: ", User::Setting::GetThemeID(),
-				U"\nThemeName: ", User::Setting::GetTheme().GetEnglishName(),
+				U"\nThemeName: ", User::Setting::GetTheme().EnglishName,
 				U"\nUserState DrawingColorID: ", User::State::GetDrawingColorID(),
 				U"\nUserState SelectedColorID: ", User::State::GetSelectedColorID(),
 				U"\nColorSelect NowCursorPos: ", OgameWindow::ColorSelect::GetNowCursorPos(),

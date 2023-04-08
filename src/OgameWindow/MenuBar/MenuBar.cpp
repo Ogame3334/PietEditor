@@ -39,7 +39,7 @@ namespace OgameWindow {
 			MenuButton{U"Edit", (m_isJapanese) ? U"編集" : U"Edit"},
 			MenuButton{U"View", (m_isJapanese) ? U"表示" : U"View"},
 			MenuButton{U"Canvas", (m_isJapanese) ? U"キャンバス" : U"Canvas"},
-			MenuButton{U"Mode", (m_isJapanese) ? U"モード" : U"Mode"},
+			MenuButton{U"Mode", (m_isJapanese) ? U"入力" : U"Input"},
 			MenuButton{U"Theme", (m_isJapanese) ? U"テーマ" : U"Theme"}
 		};
 		ButtonFunctionSetUp();
@@ -48,7 +48,7 @@ namespace OgameWindow {
 	void MenuBar::Draw() {
 		Rect rect{ 0, 0, Window::GetState().virtualSize.x, 25 };
 		SetSize(Point(rect.w, rect.h));
-		rect.draw(User::Setting::GetTheme().GetMenuBarBackGroundColor());
+		rect.draw(m_ThemePtr->MenuBarBackGroundColor);
 		for (auto& button : m_Buttons) {
 			button.Draw();
 		}

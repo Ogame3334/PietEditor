@@ -24,5 +24,9 @@ namespace OgameWindow {
 		DisplayObject::SetSize(Point(m_Tile.w, m_Tile.h));
 		ClickableObject::SetClickableRange(m_Tile);
 		ClickableObject::Update(pos);
+		if (User::State::GetMode() == Mode::DEBUG)
+			SetEnable(false);
+		else
+			SetEnable(true);
 	}
 }

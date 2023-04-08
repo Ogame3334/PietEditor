@@ -26,12 +26,12 @@ namespace OgameWindow {
 	}
 
 	void UpDownButton::Draw() {
-		GetClickableRange().draw(User::Setting::GetTheme().GetScrollBarButtonBackColor());
+		GetClickableRange().draw(m_ThemePtr->ScrollBarButtonBackColor);
 		if (Judge::isCursorInRect(GetClickableRange())) {
-			m_Triangle.draw(User::Setting::GetTheme().GetScrollBarButtonTriangleActiveColor());
+			m_Triangle.draw(m_ThemePtr->ScrollBarButtonTriangleActiveColor);
 		}
 		else {
-			m_Triangle.draw(User::Setting::GetTheme().GetScrollBarButtonTriangleColor());
+			m_Triangle.draw(m_ThemePtr->ScrollBarButtonTriangleColor);
 		}
 	}
 }

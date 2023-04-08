@@ -2,6 +2,11 @@
 
 #include "../Constants/Constants.h"
 
+enum class Mode {
+	EDIT,
+	DEBUG
+};
+
 namespace User {
 	class State {
 	private:
@@ -9,6 +14,7 @@ namespace User {
 		inline static int m_SelectedColorID = 0;
 		inline static bool m_IsCanvasHold = false;
 		inline static int m_NowSelectObjectID = 0;
+		inline static Mode m_Mode = Mode::EDIT;
 	public:
 		/// @brief ユーザーが描画する色のIDを設定
 		/// @param id 色のID
@@ -49,6 +55,9 @@ namespace User {
 		/// @brief 現在カーソルを合わせているDisplayObjectのIDを設定する
 		/// @return 現在カーソルを合わせているオブジェクトID
 		static int GetNowSelectObjectID() { return m_NowSelectObjectID; }
+
+		static void SetMode(Mode mode) { m_Mode = mode; }
+		static Mode GetMode() { return m_Mode; }
 	};
 
 	class Setting {
@@ -84,6 +93,13 @@ namespace User {
 			m_Theme = Theme(theme_id);
 		}
 
+		/// @brief テーマを変更する
+		/// @param id テーマID
+		static void ChangeTheme(int id) {
+			m_ThemeID = id;
+			m_Theme.ChangeTheme(id);
+		}
+
 		/// @brief テーマIDを取得する
 		/// @return テーマID
 		static int GetThemeID() { return m_ThemeID; }
@@ -91,5 +107,9 @@ namespace User {
 		/// @brief テーマを取得する
 		/// @return テーマ
 		static Theme GetTheme() { return m_Theme; }
+
+		/// @brief テーマのポインタを取得する
+		/// @return テーマのポインタ
+		static Theme* GetThemePtr() { return &m_Theme; }
 	};
 }

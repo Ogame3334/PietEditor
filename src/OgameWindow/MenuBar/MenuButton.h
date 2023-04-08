@@ -13,7 +13,7 @@ namespace OgameWindow {
 
 		std::function<void()> m_Function;
 
-		Font m_Font{ 12 , User::Setting::GetTheme().GetMenuButtonFont()};
+		Font m_Font{ 12 , m_ThemePtr->MenuButtonFont};
 
 		//bool isDown = false;
 		//bool isUp = false;

@@ -32,7 +32,7 @@ namespace OgameWindow {
 		double m_CursorTimer = 0;
 		double m_KeyPressTimer = 0;
 
-		Font m_Font{ 15, User::Setting::GetTheme().GetStatusBarFont() };
+		Font m_Font;
 
 		void LButtonDown() override;
 

@@ -4,12 +4,12 @@
 #include "../../ParentClass/DisplayObject.h"
 
 namespace OgameWindow {
-	class CanvasBackground : public DisplayObject{
+	class CanvasBackground : public DisplayObject {
 	private:
 		Rect m_outline;
 	public:
 		/// @brief 標準コンストラクタ
-		CanvasBackground() {};
+		CanvasBackground() = default;
 		/// @brief コンストラクタ
 		/// @param pos 座標
 		CanvasBackground(Point pos) {

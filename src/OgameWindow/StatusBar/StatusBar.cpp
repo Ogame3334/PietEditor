@@ -18,13 +18,24 @@ namespace OgameWindow {
 		Point pos = GetPosition();
 		Point size = GetSize();
 		Rect rect{ pos, size };
-		rect.draw(User::Setting::GetTheme().GetStatusBarBackColor());
+		if(User::State::GetMode() == Mode::EDIT)
+			rect.draw(m_ThemePtr->StatusBarBackColor);
+		else
+			rect.draw(m_ThemePtr->StatusBarBackDebugColor);
 		auto right_word = m_Font(m_RightString);
 		right_word.draw(
 			Window::GetState().virtualSize.x - right_word.region().size.x - 10,
 			Window::GetState().virtualSize.y - Height,
-			User::Setting::GetTheme().GetStatusBarFontColor()
+			m_ThemePtr->StatusBarFontColor
 		);
+		String left_string = U"Mode: ";
+		left_string += (User::State::GetMode() == Mode::DEBUG ? U"Debug" : U"Edit");
+		auto left_word = m_Font(left_string);
+		left_word.draw(
+			10, Window::GetState().virtualSize.y - Height,
+			m_ThemePtr->StatusBarFontColor
+		);
+
 		//Console << right_word.region().size;
 	}
 

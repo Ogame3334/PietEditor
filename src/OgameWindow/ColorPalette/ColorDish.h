@@ -14,7 +14,7 @@ namespace OgameWindow {
 		inline static int Size = 70;
 
 		Rect m_outline;
-		Font m_Font{ FontMethod::MSDF, 16, User::Setting::GetTheme().GetColorDishFont()};
+		Font m_Font{ FontMethod::MSDF, 16, m_ThemePtr->ColorDishFont};
 
 	public:
 		ColorDish(int id) :

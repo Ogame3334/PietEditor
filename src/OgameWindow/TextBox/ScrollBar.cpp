@@ -45,14 +45,14 @@ namespace OgameWindow {
 
 	void ScrollBar::Draw() {
 		if (m_Enable) {
-			m_Region.drawFrame(1, User::Setting::GetTheme().GetScrollBarOutlineColor());
-			m_Region.draw(User::Setting::GetTheme().GetScrollBarBackColor());
+			m_Region.drawFrame(1, m_ThemePtr->ScrollBarOutlineColor);
+			m_Region.draw(m_ThemePtr->ScrollBarBackColor);
 			m_UpButton.Draw();
 			m_DownButton.Draw();
 			if (Judge::isCursorInRect(GetClickableRange()) or m_IsHolding)
-				m_Bar.draw(User::Setting::GetTheme().GetScrollBarActiveColor());
+				m_Bar.draw(m_ThemePtr->ScrollBarActiveColor);
 			else
-				m_Bar.draw(User::Setting::GetTheme().GetScrollBarColor());
+				m_Bar.draw(m_ThemePtr->ScrollBarColor);
 		}
 	}
 

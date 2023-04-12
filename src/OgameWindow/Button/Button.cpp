@@ -37,10 +37,10 @@ namespace OgameWindow {
 		Point size = GetSize();
 		Rect frame = GetClickableRange();
 		Point pos = GetPosition();
-		if (Judge::isCursorInRect(frame) and MouseL.pressed()) {
+		if (Judge::IsCursorInRect(frame) and MouseL.pressed()) {
 			frame.draw(m_ThemePtr->MenuButtonBackDownColor);
 		}
-		else if (Judge::isCursorInRect(frame)) {
+		else if (Judge::IsCursorInRect(frame)) {
 			frame.draw(m_ThemePtr->MenuButtonBackActiveColor);
 			frame.drawFrame(2, 0, m_ThemePtr->MenuButtonBackColor);
 			//frame.drawFrame(1, 0, m_Theme.MenuButtonBackDownColor());

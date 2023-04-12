@@ -39,6 +39,10 @@ namespace OgameWindow {
 		/// @return ローカル座標
 		Point GetLocalPosition() const { return m_LocalPos; }
 
+		/// @brief コーデルsを取得
+		/// @return コーデル配列
+		Array<Codel> GetCodels() const { return m_Codels; }
+
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
 		void Draw() override;

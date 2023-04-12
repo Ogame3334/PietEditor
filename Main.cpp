@@ -1,4 +1,4 @@
-﻿# include <Siv3D.hpp> // OpenSiv3D v0.6.6
+﻿#include <Siv3D.hpp> // OpenSiv3D v0.6.6
 #include "src/OgameWindow/ColorPalette/ColorPalette.h"
 #include "src/User/User.h"
 #include "src/Debug/Debug.h"
@@ -7,13 +7,13 @@
 #include "src/OgameWindow/Canvas/Canvas.h"
 #include "src/OgameWindow/Canvas/CanvasBackground.h"
 #include "src/OgameWindow/StatusBar/StatusBar.h"
-//#include "src/OgameGUI/OgameGUI.h"
 #include "src/OgameWindow/TextBox/TextBoxMultipleLines.h"
 #include "src/OgameWindow/Button/Button.h"
+#include "src/ButtonsFunc/ButtonsFunc.h"
 
 void OptionSetting(void) {
 	User::Setting::SetThemeID(0);
-	Scene::SetBackground(User::Setting::GetTheme().GetBackGroundColor());
+	Scene::SetBackground(User::Setting::GetTheme().BackGroundColor);
 	Window::Resize(1280, 720);
 	Window::SetStyle(WindowStyle::Sizable);
 	Window::SetTitle(U"Ogame's PietEditor");
@@ -136,6 +136,13 @@ void UserInput(bool& isFullScreen, bool textBoxIsSelected) {
 	}
 }
 
+void ButtonsSetting(Array<OgameWindow::Button>& buttons) {
+	buttons[0].SetFunction(ButtonsFunc::Run);
+	buttons[1].SetFunction(ButtonsFunc::Step);
+	buttons[2].SetFunction(ButtonsFunc::Jump);
+	buttons[3].SetFunction(ButtonsFunc::Stop);
+}
+
 void Main(){
 
 	bool isFullScreen = false;
@@ -146,7 +153,12 @@ void Main(){
 	OgameWindow::StatusBar statusBar{};
 	OgameWindow::TextBoxMultipleLines inputTextBox{ true, U"Input" };
 	OgameWindow::TextBoxMultipleLines outputTextBox{ false, U"Output" };
-	OgameWindow::Button button{ U"Run", (User::Setting::GetIsJapanese()) ? U"実行" : U"Run", Point(50, 30), 20 };
+	Array<OgameWindow::Button> buttons = {
+		OgameWindow::Button(U"Run", U"Run", Point(90, 40), 20), 
+		OgameWindow::Button(U"Step", U"Step", Point(90, 40), 20 ),
+		OgameWindow::Button(U"Jump", U"Jump", Point(90, 40), 20),
+		OgameWindow::Button(U"Stop", U"Stop", Point(90, 40), 20 )
+	};
 
 	//OgameWindow::ScrollBar scrollBar{ 16, 200 , 10, 200};
 	//OgameWindow::MenuBox menuBox{ 150 };
@@ -155,6 +167,8 @@ void Main(){
 	//menuBox.Append(OgameWindow::MenuButton(U"Exit", (isJapanese) ? U"終了" : U"Exit", menuBox.GetWidth()));
 
 	OptionSetting();
+
+	ButtonsSetting(buttons);
 
 	Font debugFont{ 16 };
 	Point debugPos{ 0, 0 };
@@ -182,7 +196,9 @@ void Main(){
 		temp = canvas.GetPosition() + Point(inputTextBox.GetSize().x + 10, canvas.GetBackground().size.y + 50);
 		outputTextBox.Update(temp, Point(inputTextBox.GetSize().x, Scene::Size().y - temp.y - statusBar.Height - 30));
 
-		button.Update(Point(400, 400));
+		for (int i = 0; i < buttons.size(); i++) {
+			buttons[i].Update(Point(10 + i * (buttons[i].GetSize().x + 20) + 30, 260));
+		}
 
 		menuBar.Update(Point(0, 0));
 		//menuBox.Update(Point(0, 20));
@@ -193,6 +209,9 @@ void Main(){
 		colorPalette.InputUpdate();
 		inputTextBox.InputUpdate();
 		//outputTextBox.InputUpdate();
+		for (int i = 0; i < buttons.size(); i++) {
+			buttons[i].InputUpdate();
+		}
 		menuBar.InputUpdate();
 		//scrollBar.InputUpdate();
 
@@ -201,7 +220,9 @@ void Main(){
 		statusBar.Draw();
 		inputTextBox.Draw();
 		outputTextBox.Draw();
-		button.Draw();
+		for (int i = 0; i < buttons.size(); i++) {
+			buttons[i].Draw();
+		}
 		menuBar.Draw();
 		//scrollBar.Draw();
 

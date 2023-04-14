@@ -3,21 +3,20 @@
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	void Canvas::Move(const Point& pos) {
-		m_LocalPos += pos;
+	void Canvas::move(const Point& _pos) {
+		this->localPos += _pos;
 	}
-	void Canvas::Reload() {
-		m_Codels = {};
-		for (int y = 0; y < m_CanvasSize.y; y++) {
-			for (int x = 0; x < m_CanvasSize.x; x++) {
+	void Canvas::reload() {
+		this->codels = {};
+		for (int y = 0; y < this->canvasWidthHeight.y; y++) {
+			for (int x = 0; x < this->canvasWidthHeight.x; x++) {
 				//Console << Point(x, y);
-				m_Codels.push_back(Codel(Point(x, y)));
+				this->codels.push_back(Codel(Point(x, y)));
 			}
 		}
-
 	}
-	void Canvas::UserInput() {
-		if (Judge::isCursorInRect(GetClickableRange())) {
+	void Canvas::userInput() {
+		if (Judge::IsCursorInRect(getClickableRange())) {
 			if (KeyControl.pressed()) {
 				//Console << Mouse::Wheel();
 				//double temp = Mouse::Wheel() - 4;
@@ -26,10 +25,10 @@ namespace OgameWindow {
 				Codel::SetCodelSize(Codel::GetCodelSize() - (int)Mouse::Wheel());
 			}
 			else if (KeyLShift.pressed()) {
-				Move(Point(-(int)Mouse::Wheel() * 10, 0));
+				this->move(Point(-(int)Mouse::Wheel() * 10, 0));
 			}
 			else {
-				Move(Point(0, -(int)Mouse::Wheel() * 10));
+				this->move(Point(0, -(int)Mouse::Wheel() * 10));
 			}
 			if (MouseM.down()) {
 				User::State::SetIsCanvasHold(true);
@@ -40,59 +39,63 @@ namespace OgameWindow {
 		}
 		if (User::State::GetIsCanvasHold()) {
 			Cursor::RequestStyle(CursorStyle::Cross);
-			Move(Cursor::Delta());
+			this->move(Cursor::Delta());
 		}
 	}
 
 
-	void Canvas::Draw() {
-		Graphics2D::SetScissorRect(m_Background.GetOutline());
+	void Canvas::draw() {
+		Graphics2D::SetScissorRect(this->background.getOutline());
 		RasterizerState rs = RasterizerState::Default2D;
 		// シザー矩形を有効化
 		rs.scissorEnable = true;
 		const ScopedRenderStates2D rasterizer{ rs };
-		m_Background.Draw();
-		for (int y = 0; y < m_CanvasSize.y; y++) {
-			for (int x = 0; x < m_CanvasSize.x; x++) {
-				m_Codels[x + y * m_CanvasSize.x].Draw();
+		this->background.draw();
+		for (int y = 0; y < this->canvasWidthHeight.y; y++) {
+			for (int x = 0; x < this->canvasWidthHeight.x; x++) {
+				this->codels[x + y * this->canvasWidthHeight.x].draw();
 			}
 		}
 	}
 
-	Canvas::Canvas(const Point& pos) {
-		SetPosition(pos);
-		m_Background = CanvasBackground(pos);
-		SetClickableRange(m_Background.GetOutline());
-		m_CanvasSize = Point(10, 10);
-		m_LocalPos = Point(m_CanvasSize.x * Codel::GetCodelSize() / 2, m_CanvasSize.y * Codel::GetCodelSize() / 2 + 10);
-		Reload();
+	Canvas::Canvas(const Point& _pos) {
+		this->setPosition(_pos);
+		this->background = CanvasBackground(_pos);
+		this->setClickableRange(this->background.getOutline());
+		this->canvasWidthHeight = Point(10, 10);
+		this->localPos = Point(this->canvasWidthHeight.x * Codel::GetCodelSize() / 2, this->canvasWidthHeight.y * Codel::GetCodelSize() / 2 + 10);
+		this->reload();
 	}
 
-	void Canvas::InputUpdate() {
-		if (Judge::isCursorInRect(GetClickableRange())) {
-			for (int y = 0; y < m_CanvasSize.y; y++) {
-				for (int x = 0; x < m_CanvasSize.x; x++) {
-					m_Codels[x + y * m_CanvasSize.x].InputUpdate();
+	void Canvas::inputUpdate() {
+		if (Judge::IsCursorInRect(getClickableRange())) {
+			for (int y = 0; y < this->canvasWidthHeight.y; y++) {
+				for (int x = 0; x < this->canvasWidthHeight.x; x++) {
+					this->codels[x + y * this->canvasWidthHeight.x].inputUpdate();
 				}
 			}
 		}
-		UserInput();
-		ClickableObject::InputUpdate();
+		this->userInput();
+		ClickableObject::inputUpdate();
 	}
 
-	void Canvas::Update(const Point& pos) {
-		Codel::SetCanvas(m_Background.GetOutline());
-		SetClickableRange(m_Background.GetOutline());
-		int codelSize = Codel::GetCodelSize();
-		Point canvasSize{ codelSize * m_CanvasSize.x, codelSize * m_CanvasSize.y };
-		for (int y = 0; y < m_CanvasSize.y; y++) {
-			for (int x = 0; x < m_CanvasSize.x; x++) {
-				m_Codels[x + y * m_CanvasSize.x].Update(Point(pos.x + m_LocalPos.x + canvasSize.x / 2 + codelSize * (x - m_CanvasSize.x / 2) - x - canvasSize.x / 2,
-					pos.y + m_LocalPos.y + canvasSize.y / 2 + codelSize * (y - m_CanvasSize.y / 2) - y - canvasSize.y / 2));
+	void Canvas::update(const Point& _pos) {
+		Codel::setCanvas(this->background.getOutline());
+		this->setClickableRange(this->background.getOutline());
+		const int codelSize = Codel::GetCodelSize();
+		Point _canvasSize{ codelSize * this->canvasWidthHeight.x, codelSize * this->canvasWidthHeight.y };
+		for (int y = 0; y < this->canvasWidthHeight.y; y++) {
+			for (int x = 0; x < this->canvasWidthHeight.x; x++) {
+				//this->codels[x + y * this->canvasWidthHeight.x].update(Point(_pos.x + this->localPos.x + _canvasSize.x / 2 + codelSize * (x - _canvasSize.x / 2) - x - _canvasSize.x / 2,
+				//	_pos.y + this->localPos.y + _canvasSize.y / 2 + codelSize * (y - _canvasSize.y / 2) - y - _canvasSize.y / 2));
+				this->codels[x + y * this->canvasWidthHeight.x].update(Point(
+					_pos.x + codelSize * x + this->localPos.x - x - _canvasSize.x / 2,
+					_pos.y + codelSize * y + this->localPos.y - y - _canvasSize.y / 2
+				));
 			}
 		}
-		m_Background.Update(pos);
-		DisplayObject::SetSize(Point(m_CanvasSize.x * Codel::GetCodelSize(), m_CanvasSize.y * Codel::GetCodelSize()));
-		DisplayObject::Update(pos);
+		this->background.update(_pos);
+		DisplayObject::setSize(Point(_canvasSize.x * Codel::GetCodelSize(), _canvasSize.y * Codel::GetCodelSize()));
+		DisplayObject::update(_pos);
 	}
 }

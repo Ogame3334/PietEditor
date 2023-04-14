@@ -2,13 +2,13 @@
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	void CanvasBackground::Draw() {
-		Point pos = GetPosition();
-		SetSize(Point(Scene::Size().x - pos.x - 20, Scene::Size().y - pos.y - 300));
-		Point size = GetSize();
-		m_outline = Rect(pos.x, pos.y, size.x, size.y);
-		m_outline.drawFrame(1, 0, m_ThemePtr->CanvasBackOutlineColor);
-		Rect background = m_outline;
-		background.draw(m_ThemePtr->CanvasBackGroundColor);
+	void CanvasBackground::draw() {
+		Point pos = getPosition();
+		setSize(Point(Scene::Size().x - pos.x - 20, Scene::Size().y - pos.y - 300));
+		Point size = getSize();
+		this->outline = Rect(pos.x, pos.y, size.x, size.y);
+		this->outline.drawFrame(1, 0, this->themePtr->CanvasBackOutlineColor);
+		Rect background = this->outline;
+		background.draw(this->themePtr->CanvasBackGroundColor);
 	}
 }

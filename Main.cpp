@@ -137,10 +137,10 @@ void UserInput(bool& isFullScreen, bool textBoxIsSelected) {
 }
 
 void ButtonsSetting(Array<OgameWindow::Button>& buttons) {
-	buttons[0].SetFunction(ButtonsFunc::Run);
-	buttons[1].SetFunction(ButtonsFunc::Step);
-	buttons[2].SetFunction(ButtonsFunc::Jump);
-	buttons[3].SetFunction(ButtonsFunc::Stop);
+	buttons[0].setFunction(ButtonsFunc::Run);
+	buttons[1].setFunction(ButtonsFunc::Step);
+	buttons[2].setFunction(ButtonsFunc::Jump);
+	buttons[3].setFunction(ButtonsFunc::Stop);
 }
 
 void Main(){
@@ -149,7 +149,7 @@ void Main(){
 
 	OgameWindow::MenuBar menuBar{};
 	OgameWindow::ColorPalette colorPalette{ Point(10, 35) };
-	OgameWindow::Canvas canvas{ Point(colorPalette.GetSize().x + colorPalette.GetPosition().x + 10, 35) };
+	OgameWindow::Canvas canvas{ Point(colorPalette.getSize().x + colorPalette.getPosition().x + 10, 35) };
 	OgameWindow::StatusBar statusBar{};
 	OgameWindow::TextBoxMultipleLines inputTextBox{ true, U"Input" };
 	OgameWindow::TextBoxMultipleLines outputTextBox{ false, U"Output" };
@@ -184,46 +184,46 @@ void Main(){
 	while (System::Update()) {
 		User::State::SetNowSelectObjectID(-1);
 
-		UserInput(isFullScreen, inputTextBox.GetIsSelected());
+		UserInput(isFullScreen, inputTextBox.getIsSelected());
 
-		canvas.Update(Point(colorPalette.GetSize().x + colorPalette.GetPosition().x + 10, 35));
-		colorPalette.Update(Point(10, 35));
-		statusBar.Update(canvas);
+		canvas.update(Point(colorPalette.getSize().x + colorPalette.getPosition().x + 10, 35));
+		colorPalette.update(Point(10, 35));
+		statusBar.update(canvas);
 
-		Point temp = canvas.GetPosition() + Point(0, canvas.GetBackground().size.y + 50);
-		inputTextBox.Update(temp, Point((Scene::Size().x - temp.x - 20) / 2 - 5, Scene::Size().y - temp.y - statusBar.Height - 30));
+		Point temp = canvas.getPosition() + Point(0, canvas.getBackground().size.y + 50);
+		inputTextBox.update(temp, Point((Scene::Size().x - temp.x - 20) / 2 - 5, Scene::Size().y - temp.y - statusBar.Height - 30));
 
-		temp = canvas.GetPosition() + Point(inputTextBox.GetSize().x + 10, canvas.GetBackground().size.y + 50);
-		outputTextBox.Update(temp, Point(inputTextBox.GetSize().x, Scene::Size().y - temp.y - statusBar.Height - 30));
+		temp = canvas.getPosition() + Point(inputTextBox.getSize().x + 10, canvas.getBackground().size.y + 50);
+		outputTextBox.update(temp, Point(inputTextBox.getSize().x, Scene::Size().y - temp.y - statusBar.Height - 30));
 
 		for (int i = 0; i < buttons.size(); i++) {
-			buttons[i].Update(Point(10 + i * (buttons[i].GetSize().x + 20) + 30, 260));
+			buttons[i].update(Point(10 + i * (buttons[i].getSize().x + 20) + 30, 260));
 		}
 
-		menuBar.Update(Point(0, 0));
+		menuBar.update(Point(0, 0));
 		//menuBox.Update(Point(0, 20));
 		//scrollBar.UpdateInt(Point(100, 100), 30);
 
 
-		canvas.InputUpdate();
-		colorPalette.InputUpdate();
-		inputTextBox.InputUpdate();
+		canvas.inputUpdate();
+		colorPalette.inputUpdate();
+		inputTextBox.inputUpdate();
 		//outputTextBox.InputUpdate();
 		for (int i = 0; i < buttons.size(); i++) {
-			buttons[i].InputUpdate();
+			buttons[i].inputUpdate();
 		}
-		menuBar.InputUpdate();
+		menuBar.inputUpdate();
 		//scrollBar.InputUpdate();
 
-		canvas.Draw();
-		colorPalette.Draw();
-		statusBar.Draw();
-		inputTextBox.Draw();
-		outputTextBox.Draw();
+		canvas.draw();
+		colorPalette.draw();
+		statusBar.draw();
+		inputTextBox.draw();
+		outputTextBox.draw();
 		for (int i = 0; i < buttons.size(); i++) {
-			buttons[i].Draw();
+			buttons[i].draw();
 		}
-		menuBar.Draw();
+		menuBar.draw();
 		//scrollBar.Draw();
 
 		//menuBox.Draw();

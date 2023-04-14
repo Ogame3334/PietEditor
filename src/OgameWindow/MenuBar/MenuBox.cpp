@@ -13,59 +13,59 @@ namespace OgameWindow {
 		return max;
 	}*/
 
-	int MenuBox::CalcHeight() {
+	int MenuBox::calcHeight() {
 		int temp = 0;
-		for (const auto& button : m_Buttons) {
-			temp += button.GetSize().y;
+		for (const auto& button : this->buttons) {
+			temp += button.getSize().y;
 		}
 		return temp;
 	}
 
-	void MenuBox::Append(MenuButton button) {
-		m_Buttons << button;
-		m_Outline.setSize(m_Outline.w, CalcHeight());
+	void MenuBox::append(MenuButton _button) {
+		this->buttons << _button;
+		this->outline.setSize(outline.w, calcHeight());
 	}
 
-	void MenuBox::SetButtonFunction(int num, std::function<void()> func) {
-		auto& button = m_Buttons[num];
-		button.SetFunction(func);
+	void MenuBox::setButtonFunction(int _num, std::function<void()> _func) {
+		auto& button = this->buttons[_num];
+		button.setFunction(_func);
 	}
 
 	MenuBox::MenuBox() {
-		m_Outline = Rect{ 0, 0, 0, 0 };
-		m_ID = -1;
+		this->outline = Rect{ 0, 0, 0, 0 };
+		this->id = -1;
 	}
 
-	MenuBox::MenuBox(int width, int id) {
+	MenuBox::MenuBox(int _width, int _id) {
 		//bool isJapanese = User::Setting::GetIsJapanese();
 		//m_Buttons.push_back(MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", width));
 		//m_Buttons.push_back(MenuButton(U"Exit", (isJapanese) ? U"終了" : U"Exit", width));
-		m_Outline = Rect{ 0, 0, width, 0 };
-		m_ID = id;
+		this->outline = Rect{ 0, 0, _width, 0 };
+		this->id = _id;
 	}
 
-	void MenuBox::Draw() {
-		Point pos = GetPosition();
+	void MenuBox::draw() {
+		Point pos = getPosition();
 		//m_Outline.draw(Palette::Lightgray);
 		//m_Outline.drawFrame(1, 0, Palette::Black);
 		
-		for (auto& button : m_Buttons) {
-			button.Draw();
+		for (auto& button : this->buttons) {
+			button.draw();
 		}
 	}
 
-	void MenuBox::InputUpdate() {
-		for (auto& button : m_Buttons) {
-			button.InputUpdate();
+	void MenuBox::inputUpdate() {
+		for (auto& button : this->buttons) {
+			button.inputUpdate();
 		}
 	}
 
-	void MenuBox::Update(const Point& pos) {
-		DisplayObject::Update(pos);
-		m_Outline.pos = pos;
+	void MenuBox::update(const Point& _pos) {
+		DisplayObject::update(_pos);
+		this->outline.pos = _pos;
 		int i = 0;
-		for (auto& button : m_Buttons) {
-			button.Update(pos + Point(0, button.GetSize().y * i + 3));
+		for (auto& button : this->buttons) {
+			button.update(_pos + Point(0, button.getSize().y * i + 3));
 			i++;
 		}
 	}

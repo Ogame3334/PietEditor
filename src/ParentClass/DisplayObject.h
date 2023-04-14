@@ -5,47 +5,47 @@
 
 class DisplayObject {
 private:
-	inline static int m_LatestID = 0;
-	int m_ObjectID;
+	inline static int LatestID = 0;
+	int objectID;
 protected:
-	Point m_Pos;
-	Point m_Size;
-	const Theme* m_ThemePtr;
+	Point position;
+	Point size;
+	const Theme* themePtr;
 	/// @brief オブジェクトのIDを取得します
 	/// @return オブジェクトID
-	int GetObjectID() { return m_ObjectID; };
+	int getObjectID() { return objectID; };
 	/// @brief DisplayObjectの標準コンストラクタ
 	DisplayObject() :
-		m_ObjectID(m_LatestID),
-		m_Pos(Point{ 0, 0 }),
-		m_Size(Point(0, 0)),
-		m_ThemePtr(User::Setting::GetThemePtr())
+		objectID(LatestID),
+		position(Point{ 0, 0 }),
+		size(Point(0, 0)),
+		themePtr(User::Setting::GetThemePtr())
 	{
-		m_LatestID++;
+		LatestID++;
 	}
 public:
 	/// @brief オブジェクトの座標を設定
 	/// @param pos オブジェクトの座標
-	void SetPosition(const Point& pos) { m_Pos = pos; }
+	void setPosition(const Point& _pos) { this->position = _pos; }
 
 	/// @brief オブジェクトの座標を取得
 	/// @return オブジェクトの座標
-	Point GetPosition() const { return m_Pos; }
+	Point getPosition() const { return this->position; }
 
 	/// @brief オブジェクトの幅と高さを設定
 	/// @param size オブジェクトの幅と高さ
-	void SetSize(const Point& size) { m_Size = size; }
+	void setSize(const Point& _size) { this->size = _size; }
 
 	/// @brief オブジェクトの幅と高さを取得
 	/// @return オブジェクトの幅と高さ
-	Point GetSize() const { return m_Size; }
+	Point getSize() const { return this->size; }
 
 	/// @brief オブジェクトを画面に表示する関数
 	/// @detail whileでUpdate, InputUpdateの後に呼び出される
-	virtual void Draw() {}
+	virtual void draw() {}
 	/// @brief オブジェクトの状態を更新するメソッド
 	/// @param pos オブジェクトの座標
-	virtual void Update(const Point& pos) {
-		m_Pos = pos;
+	virtual void update(const Point& _pos) {
+		this->position = _pos;
 	}
 };

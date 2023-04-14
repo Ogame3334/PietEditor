@@ -4,69 +4,69 @@
 
 namespace OgameWindow {
 	void MenuButton::LButtonDown() {
-		Clicked();
-		Console << U"\"" << m_DisplayName << U"\"が押された";
+		clicked();
+		Console << U"\"" << this->displayName << U"\"が押された";
 	}
 
-	void MenuButton::Update(const Point& pos) {
-		ClickableObject::Update(pos);
-		auto word = m_Font(m_DisplayName);
+	void MenuButton::update(const Point& _pos) {
+		ClickableObject::update(_pos);
+		auto word = this->font(this->displayName);
 		Point size{ (int)word.region().size.x + 6, (int)word.region().size.y };
 		Rect frame;
-		if (m_Width == 0)
-			frame = Rect{ pos.x, pos.y, size.x, size.y };
+		if (this->width == 0)
+			frame = Rect{ _pos.x, _pos.y, size.x, size.y };
 		else {
-			frame = Rect{ pos.x, pos.y, m_Width, size.y };
+			frame = Rect{ _pos.x, _pos.y, this->width, size.y };
 		}
-		SetSize(Point(frame.w, frame.h));
-		SetClickableRange(frame);
+		setSize(Point(frame.w, frame.h));
+		setClickableRange(frame);
 		//Console << GetPosition();
 	}
 
-	void MenuButton::Draw() {
+	void MenuButton::draw() {
 		//Console << GetPosition();
-		auto word = m_Font(m_DisplayName);
-		Point size = GetSize();
-		Rect frame = GetClickableRange();
-		Point pos = GetPosition();
-		if (Judge::isCursorInRect(frame) and MouseL.pressed()) {
-			frame.draw(m_ThemePtr->MenuButtonBackDownColor);
+		auto word = this->font(this->displayName);
+		Point size = getSize();
+		Rect frame = getClickableRange();
+		Point pos = getPosition();
+		if (Judge::IsCursorInRect(frame) and MouseL.pressed()) {
+			frame.draw(this->themePtr->MenuButtonBackDownColor);
 		}
-		else if (Judge::isCursorInRect(frame)) {
-			frame.draw(m_ThemePtr->MenuButtonBackActiveColor);
-			frame.drawFrame(2, 0, m_ThemePtr->MenuButtonBackColor);
-			frame.drawFrame(1, 0, m_ThemePtr->MenuButtonBackDownColor);
+		else if (Judge::IsCursorInRect(frame)) {
+			frame.draw(this->themePtr->MenuButtonBackActiveColor);
+			frame.drawFrame(2, 0, this->themePtr->MenuButtonBackColor);
+			frame.drawFrame(1, 0, this->themePtr->MenuButtonBackDownColor);
 		}
 		else {
 			//Console << frame.pos;
-			frame.draw(m_ThemePtr->MenuButtonBackColor);
+			frame.draw(this->themePtr->MenuButtonBackColor);
 		}
 
 		//Console << GetPosition();
-		word.draw(pos.x + 3, pos.y, m_ThemePtr->MenuButtonFontColor);
+		word.draw(pos.x + 3, pos.y, this->themePtr->MenuButtonFontColor);
 	}
-	void MenuButton::Clicked() {
-		GetFunction()();
+	void MenuButton::clicked() {
+		getFunction()();
 	}
-	MenuButton::MenuButton(const String& id_name, const String& display_name) :
-		m_IdName(id_name),
-		m_DisplayName(display_name)
+	MenuButton::MenuButton(const String& _idName, const String& _displayName) :
+		idName(_idName),
+		displayName(_displayName)
 	{
-		SetPosition(Point(0, 0));
-		SetClickableRange(Rect(0, 0, 0, 0));
-		RemoveFunction();
-		m_Width = (int)m_Font(m_DisplayName).region().size.x + 6;
-		SetSize(Point(m_Width, (int)m_Font(m_DisplayName).region().size.y));
+		setPosition(Point(0, 0));
+		setClickableRange(Rect(0, 0, 0, 0));
+		removeFunction();
+		this->width = (int)this->font(this->displayName).region().size.x + 6;
+		setSize(Point(this->width, (int)this->font(this->displayName).region().size.y));
 	}
 
-	MenuButton::MenuButton(const String& id_name, const String& display_name, int width) :
-		m_IdName(id_name),
-		m_DisplayName(display_name),
-		m_Width(width)
+	MenuButton::MenuButton(const String& _idName, const String& _displayName, int _width) :
+		idName(_idName),
+		displayName(_displayName),
+		width(_width)
 	{
-		SetPosition(Point(0, 0));
-		SetClickableRange(Rect(0, 0, 0, 0));
-		RemoveFunction();
-		SetSize(Point(width, (int)m_Font(m_DisplayName).region().size.y));
+		setPosition(Point(0, 0));
+		setClickableRange(Rect(0, 0, 0, 0));
+		removeFunction();
+		setSize(Point(_width, (int)this->font(this->displayName).region().size.y));
 	}
 }

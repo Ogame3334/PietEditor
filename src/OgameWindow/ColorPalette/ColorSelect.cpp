@@ -1,9 +1,9 @@
 ﻿#include "ColorSelect.h"
 
 namespace OgameWindow {
-	int ColorSelect::PositiveMod(int x, int y) {
-		int divisor = y; /* 除数 */
-		int dividend = x; /* 被除数 */
+	int ColorSelect::PositiveMod(int _x, int _y) {
+		int divisor = _y; /* 除数 */
+		int dividend = _x; /* 被除数 */
 
 		while (dividend < 0) {
 			dividend += divisor;
@@ -11,8 +11,8 @@ namespace OgameWindow {
 
 		return dividend % divisor;
 	}
-	void ColorSelect::AddNowCursorPos(int num) {
-		int temp = NowCursorPos + num;
+	void ColorSelect::AddNowCursorPos(int _num) {
+		int temp = NowCursorPos + _num;
 		NowCursorPos = PositiveMod(temp, 21);
 	}
 	void ColorSelect::UserInput(void) {
@@ -35,7 +35,7 @@ namespace OgameWindow {
 				AddNowCursorPos(1);
 		}
 	}
-	void ColorSelect::NowColorSet(void) {
+	void ColorSelect::NowColorSet() {
 		if (NowCursorPos < 6)
 			User::State::SetNowColorID(NowCursorPos);
 		else if (NowCursorPos == 6)
@@ -59,18 +59,18 @@ namespace OgameWindow {
 		else if (id == 21)
 			NowCursorPos = 12;
 	}*/
-	void ColorSelect::CursorDraw(const Point& pos, int size) {
-		Rect grayLine = Rect{ pos.x + 10, pos.y + 10, size - 14, size - 14 };
+	void ColorSelect::CursorDraw(const Point& _pos, int _size) {
+		Rect grayLine = Rect{ _pos.x + 10, _pos.y + 10, _size - 14, _size - 14 };
 		grayLine.drawFrame(2, 1, Palette::Darkgray);
-		Rect outline = Rect{ pos.x + 10, pos.y + 10, size - 14, size - 14 };
+		Rect outline = Rect{ _pos.x + 10, _pos.y + 10, _size - 14, _size - 14 };
 		outline.drawFrame(1, 0, Palette::Black);
 	}
-	void ColorSelect::Draw(const Point& pos) {
-		CursorDraw(Point(pos.x + ColorDish::GetSize() * (NowCursorPos % 7), pos.y + ColorDish::GetSize() * ((int)(NowCursorPos / 7))), ColorDishSize);
+	void ColorSelect::draw(const Point& _pos) {
+		CursorDraw(Point(_pos.x + ColorDish::GetSize() * (NowCursorPos % 7), _pos.y + ColorDish::GetSize() * ((int)(NowCursorPos / 7))), ColorDishSize);
 	}
-	void ColorSelect::Update(const Point& pos) {
+	void ColorSelect::update(const Point& _pos) {
 		UserInput();
 		NowColorSet();
-		Draw(pos);
+		draw(_pos);
 	}
 }

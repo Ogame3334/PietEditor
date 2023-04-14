@@ -2,46 +2,46 @@
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	void StatusBar::ChangeRightString(const Canvas& canvas) {
-		m_RightString = U"Width: " + Format(canvas.GetCanvasSize().x)
-					+ U",  Height: " + Format(canvas.GetCanvasSize().y)
+	void StatusBar::changeRightString(const Canvas& canvas) {
+		this->rightString = U"Width: " + Format(canvas.getCanvasSize().x)
+					+ U",  Height: " + Format(canvas.getCanvasSize().y)
 					+ U",  CodelSize: " + Format(Codel::GetCodelSize())
-					+ U",  CanvasPosition: " + Format(canvas.GetLocalPosition());
+					+ U",  CanvasPosition: " + Format(canvas.getLocalPosition());
 	}
 
 	StatusBar::StatusBar() {
-		SetSize(Point(Window::GetState().virtualSize.x, Height));
-		SetPosition(Point(0, Window::GetState().virtualSize.y - Height));
+		setSize(Point(Window::GetState().virtualSize.x, Height));
+		setPosition(Point(0, Window::GetState().virtualSize.y - Height));
 	}
 
-	void StatusBar::Draw() {
-		Point pos = GetPosition();
-		Point size = GetSize();
+	void StatusBar::draw() {
+		Point pos = getPosition();
+		Point size = getSize();
 		Rect rect{ pos, size };
 		if(User::State::GetMode() == Mode::EDIT)
-			rect.draw(m_ThemePtr->StatusBarBackColor);
+			rect.draw(this->themePtr->StatusBarBackColor);
 		else
-			rect.draw(m_ThemePtr->StatusBarBackDebugColor);
-		auto right_word = m_Font(m_RightString);
+			rect.draw(this->themePtr->StatusBarBackDebugColor);
+		auto right_word = this->font(this->rightString);
 		right_word.draw(
 			Window::GetState().virtualSize.x - right_word.region().size.x - 10,
 			Window::GetState().virtualSize.y - Height,
-			m_ThemePtr->StatusBarFontColor
+			this->themePtr->StatusBarFontColor
 		);
 		String left_string = U"Mode: ";
 		left_string += (User::State::GetMode() == Mode::DEBUG ? U"Debug" : U"Edit");
-		auto left_word = m_Font(left_string);
+		auto left_word = font(left_string);
 		left_word.draw(
 			10, Window::GetState().virtualSize.y - Height,
-			m_ThemePtr->StatusBarFontColor
+			this->themePtr->StatusBarFontColor
 		);
 
 		//Console << right_word.region().size;
 	}
 
-	void StatusBar::Update(const Canvas& canvas) {
-		SetSize(Point(Window::GetState().virtualSize.x, Height));
-		SetPosition(Point(0, Window::GetState().virtualSize.y - Height));
-		ChangeRightString(canvas);
+	void StatusBar::update(const Canvas& canvas) {
+		setSize(Point(Window::GetState().virtualSize.x, Height));
+		setPosition(Point(0, Window::GetState().virtualSize.y - Height));
+		changeRightString(canvas);
 	}
 }

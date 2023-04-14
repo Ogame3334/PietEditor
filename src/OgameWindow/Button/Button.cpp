@@ -3,55 +3,55 @@
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	Button::Button(const String& id_name, const String& display_name, const Point& size, int font_size) :
-		m_IdName(id_name),
-		m_DisplayName(display_name),
-		m_FontSize(font_size)
+	Button::Button(const String& _idName, const String& _displayName, const Point& _size, int _fontSize) :
+		idName(_idName),
+		displayName(_displayName),
+		fontSize(_fontSize)
 	{
-		SetPosition(Point(0, 0));
-		SetClickableRange(Rect(0, 0, 0, 0));
-		RemoveFunction();
-		SetSize(size);
-		m_Font = Font(m_FontSize, Typeface::CJK_Regular_JP);
+		setPosition(Point(0, 0));
+		setClickableRange(Rect(0, 0, 0, 0));
+		removeFunction();
+		setSize(_size);
+		font = Font(_fontSize, Typeface::CJK_Regular_JP);
 	}
 
 	void Button::LButtonDown() {
-		Clicked();
-		Console << U"\"" << m_DisplayName << U"\"が押された";
+		clicked();
+		Console << U"\"" << displayName << U"\"が押された";
 	}
 
-	void Button::Clicked() {
-		GetFunction()();
+	void Button::clicked() {
+		getFunction()();
 	}
 
-	void Button::Update(const Point& pos) {
-		ClickableObject::Update(pos);
-		Point size = GetSize();
-		Rect frame{ pos, size };
-		SetClickableRange(frame);
+	void Button::update(const Point& _pos) {
+		ClickableObject::update(_pos);
+		Point size = getSize();
+		Rect frame{ _pos, size };
+		setClickableRange(frame);
 		//Console << GetPosition();
 	}
 
-	void Button::Draw() {
-		auto word = m_Font(m_DisplayName);
-		Point size = GetSize();
-		Rect frame = GetClickableRange();
-		Point pos = GetPosition();
+	void Button::draw() {
+		auto word = this->font(this->displayName);
+		Point size = getSize();
+		Rect frame = getClickableRange();
+		Point pos = getPosition();
 		if (Judge::IsCursorInRect(frame) and MouseL.pressed()) {
-			frame.draw(m_ThemePtr->MenuButtonBackDownColor);
+			frame.draw(this->themePtr->MenuButtonBackDownColor);
 		}
 		else if (Judge::IsCursorInRect(frame)) {
-			frame.draw(m_ThemePtr->MenuButtonBackActiveColor);
-			frame.drawFrame(2, 0, m_ThemePtr->MenuButtonBackColor);
+			frame.draw(this->themePtr->MenuButtonBackActiveColor);
+			frame.drawFrame(2, 0, this->themePtr->MenuButtonBackColor);
 			//frame.drawFrame(1, 0, m_Theme.MenuButtonBackDownColor());
 		}
 		else {
 			//Console << frame.pos;
-			frame.draw(m_ThemePtr->MenuButtonBackColor);
+			frame.draw(this->themePtr->MenuButtonBackColor);
 		}
 		frame.drawFrame(1, 0, Palette::Black);
 
 		//Console << GetPosition();
-		word.drawAt(pos.x + size.x / 2, pos.y + size.y / 2, m_ThemePtr->MenuButtonFontColor);
+		word.drawAt(pos.x + size.x / 2, pos.y + size.y / 2, this->themePtr->MenuButtonFontColor);
 	}
 }

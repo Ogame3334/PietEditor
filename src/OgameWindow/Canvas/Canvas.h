@@ -7,50 +7,50 @@
 namespace OgameWindow {
 	class Canvas : public ClickableObject{
 	private:
-		Point m_CanvasSize;
-		Point m_LocalPos;
-		Array<Codel> m_Codels;
-		CanvasBackground m_Background;
+		Point canvasWidthHeight;
+		Point localPos;
+		Array<Codel> codels;
+		CanvasBackground background;
 
 		/// @brief キャンバスに引数の座標を加算
 		/// @param pos 加算座標
-		void Move(const Point& pos);
+		void move(const Point& _pos);
 
 		/// @brief キャンバスを再生成
-		void Reload();
+		void reload();
 
 		/// @brief ユーザー入力
-		void UserInput();
+		void userInput();
 		
 	public:
 		/// @brief Canvasのコンストラクタ
 		/// @param pos 座標
-		Canvas(const Point& pos);
+		Canvas(const Point& _pos);
 
 		/// @brief キャンバス背景のRectを取得
 		/// @return キャンバス背景のRect
-		Rect GetBackground() const { return m_Background.GetOutline(); };
+		Rect getBackground() const { return this->background.getOutline(); };
 
 		/// @brief キャンバスの幅と高さを取得
 		/// @return キャンバスの幅と高さ
-		Point GetCanvasSize() const { return m_CanvasSize; }
+		Point getCanvasSize() const { return this->canvasWidthHeight; }
 
 		/// @brief キャンバスのローカル座標を取得
 		/// @return ローカル座標
-		Point GetLocalPosition() const { return m_LocalPos; }
+		Point getLocalPosition() const { return this->localPos; }
 
 		/// @brief コーデルsを取得
 		/// @return コーデル配列
-		Array<Codel> GetCodels() const { return m_Codels; }
+		Array<Codel> getCodels() const { return this->codels; }
 
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
-		void Draw() override;
+		void draw() override;
 		/// @brief ユーザーの入力を受け付ける
 		/// @brief whileでUpdateの後に呼ばれる
-		void InputUpdate() override;
+		void inputUpdate() override;
 		/// @brief オブジェクトの状態を更新するメソッド
 		/// @param pos オブジェクトの座標
-		void Update(const Point& pos) override;
+		void update(const Point& _pos) override;
 	};
 }

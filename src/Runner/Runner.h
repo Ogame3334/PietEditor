@@ -18,7 +18,7 @@ public:
 
 	void Init() {
 		now_coord = Point(0, 0);
-		codels = this->canvas.GetCodels();
+		codels = this->canvas.getCodels();
 	}
 
 	void Step();

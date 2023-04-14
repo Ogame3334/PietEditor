@@ -6,21 +6,21 @@
 namespace OgameWindow {
 	class CanvasBackground : public DisplayObject {
 	private:
-		Rect m_outline;
+		Rect outline;
 	public:
 		/// @brief 標準コンストラクタ
 		CanvasBackground() = default;
 		/// @brief コンストラクタ
-		/// @param pos 座標
-		CanvasBackground(Point pos) {
-			SetPosition(pos);
+		/// @param _pos 座標
+		CanvasBackground(Point _pos) {
+			setPosition(_pos);
 		}
 		/// @brief 背景の範囲をRectで取得
 		/// @return 背景の範囲
-		Rect GetOutline() const { return m_outline; }
+		Rect getOutline() const { return this->outline; }
 
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
-		void Draw() override;
+		void draw() override;
 	};
 }

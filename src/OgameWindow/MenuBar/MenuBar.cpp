@@ -3,89 +3,89 @@
 #include "../../Judge/Judge.h"
 
 namespace OgameWindow {
-	void MenuBar::ButtonFunctionSetUp() {
+	void MenuBar::buttonFunctionSetUp() {
 		bool isJapanese = User::Setting::GetIsJapanese();
 		MenuBox temp_menubox{ 150 , 0 };
-		temp_menubox.SetPosition(Point(2, 20));
-		temp_menubox.Append(OgameWindow::MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", temp_menubox.GetWidth()));
-		temp_menubox.Append(OgameWindow::MenuButton(U"Exit", (isJapanese) ? U"終了" : U"Exit", temp_menubox.GetWidth()));
-		temp_menubox.SetButtonFunction(0, []() {});
-		temp_menubox.SetButtonFunction(1, []() { System::Exit(); });
-		m_Buttons[0].SetFunction([this, temp_menubox]() { MenuBar::ToggleMenuBox(temp_menubox); });
+		temp_menubox.setPosition(Point(2, 20));
+		temp_menubox.append(OgameWindow::MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", temp_menubox.getWidth()));
+		temp_menubox.append(OgameWindow::MenuButton(U"Exit", (isJapanese) ? U"終了" : U"Exit", temp_menubox.getWidth()));
+		temp_menubox.setButtonFunction(0, []() {});
+		temp_menubox.setButtonFunction(1, []() { System::Exit(); });
+		this->buttons[0].setFunction([this, temp_menubox]() { MenuBar::toggleMenuBox(temp_menubox); });
 	}
 
-	void MenuBar::ToggleMenuBox(const MenuBox& box) {
-		MenuBox menuBox = GetMenuBox();
-		if (not m_IsMenuBoxON) {
-			SetMenuBox(box);
-			m_IsMenuBoxON = true;
+	void MenuBar::toggleMenuBox(const MenuBox& _box) {
+		MenuBox menuBox = getMenuBox();
+		if (not this->isMenuBoxON) {
+			setMenuBox(_box);
+			this->isMenuBoxON = true;
 		}
-		else if(box.GetID() == menuBox.GetID()){
-			RemoveMenuBox();
-			m_IsMenuBoxON = false;
+		else if(_box.getID() == menuBox.getID()){
+			removeMenuBox();
+			this->isMenuBoxON = false;
 		}
 		else {
-			SetMenuBox(box);
-			m_IsMenuBoxON = false;
+			setMenuBox(_box);
+			this->isMenuBoxON = false;
 		}
 	}
 
 	MenuBar::MenuBar() {
-		m_isJapanese = User::Setting::GetIsJapanese();
-		SetPosition(Point(0, 0));
-		SetSize(Point(0, 0));
-		m_Buttons = {
-			MenuButton{U"File", (m_isJapanese) ? U"ファイル" : U"File"},
-			MenuButton{U"Edit", (m_isJapanese) ? U"編集" : U"Edit"},
-			MenuButton{U"View", (m_isJapanese) ? U"表示" : U"View"},
-			MenuButton{U"Canvas", (m_isJapanese) ? U"キャンバス" : U"Canvas"},
-			MenuButton{U"Mode", (m_isJapanese) ? U"入力" : U"Input"},
-			MenuButton{U"Theme", (m_isJapanese) ? U"テーマ" : U"Theme"}
+		this->isJapanese = User::Setting::GetIsJapanese();
+		setPosition(Point(0, 0));
+		setSize(Point(0, 0));
+		this->buttons = {
+			MenuButton{U"File", (this->isJapanese) ? U"ファイル" : U"File"},
+			MenuButton{U"Edit", (this->isJapanese) ? U"編集" : U"Edit"},
+			MenuButton{U"View", (this->isJapanese) ? U"表示" : U"View"},
+			MenuButton{U"Canvas", (this->isJapanese) ? U"キャンバス" : U"Canvas"},
+			MenuButton{U"Mode", (this->isJapanese) ? U"入力" : U"Input"},
+			MenuButton{U"Theme", (this->isJapanese) ? U"テーマ" : U"Theme"}
 		};
-		ButtonFunctionSetUp();
+		buttonFunctionSetUp();
 	}
 
-	void MenuBar::Draw() {
+	void MenuBar::draw() {
 		Rect rect{ 0, 0, Window::GetState().virtualSize.x, 25 };
-		SetSize(Point(rect.w, rect.h));
-		rect.draw(m_ThemePtr->MenuBarBackGroundColor);
-		for (auto& button : m_Buttons) {
-			button.Draw();
+		setSize(Point(rect.w, rect.h));
+		rect.draw(this->themePtr->MenuBarBackGroundColor);
+		for (auto& button : this->buttons) {
+			button.draw();
 		}
-		if (m_MenuBox.GetID() != -1) {
-			m_MenuBox.Draw();
+		if (this->menuBox.getID() != -1) {
+			this->menuBox.draw();
 		}
 	}
 
-	void MenuBar::InputUpdate() {
-		if (not m_IsMenuBoxON) {
-			for (auto& button : m_Buttons) {
-				button.InputUpdate();
+	void MenuBar::inputUpdate() {
+		if (not this->isMenuBoxON) {
+			for (auto& button : this->buttons) {
+				button.inputUpdate();
 			}
 		}
 		else {
 			if (MouseL.down()) {
-				if (Judge::isCursorInRect(m_MenuBox.GetOutline())) {
-					m_MenuBox.InputUpdate();
+				if (Judge::IsCursorInRect(this->menuBox.getOutline())) {
+					this->menuBox.inputUpdate();
 				}
 				else {
-					RemoveMenuBox();
-					m_IsMenuBoxON = false;
+					removeMenuBox();
+					this->isMenuBoxON = false;
 				}
 			}
 		}
 	}
 
-	void MenuBar::Update(const Point& pos) {
+	void MenuBar::update(const Point& _pos) {
 		int put_x = 0;
-		for (auto& button : m_Buttons) {
+		for (auto& button : this->buttons) {
 			//Console << pos + Point(put_x + 2, 2);
-			button.Update(pos + Point(put_x + 2, 2));
-			put_x += button.GetSize().x;
+			button.update(_pos + Point(put_x + 2, 2));
+			put_x += button.getSize().x;
 		}
-		if (m_MenuBox.GetID() != -1) {
-			m_MenuBox.Update(m_MenuBox.GetPosition());
+		if (this->menuBox.getID() != -1) {
+			this->menuBox.update(this->menuBox.getPosition());
 		}
-		DisplayObject::Update(pos);
+		DisplayObject::update(_pos);
 	}
 }

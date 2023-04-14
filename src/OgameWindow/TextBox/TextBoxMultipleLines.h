@@ -8,56 +8,56 @@
 namespace OgameWindow {
 	class TextBoxMultipleLines : public ClickableObject {
 	private:
-		ScrollBar m_ScrollBar;
-		Rect m_TextBox;
+		ScrollBar scrollBar;
+		Rect textBox;
 
-		int m_TextHeight;
-		int m_DisplayHeight;
+		int textHeight;
+		int displayHeight;
 		int Padding = 5;
-		int m_Line = 0;
+		int line = 0;
 
-		bool m_IsSelected = false;
-		bool m_CanEdit;
+		bool isSelected = false;
+		bool canEdit;
 
-		Vec2 m_TextBasePos;
-		Vec2 m_TextPenPos;
-		Vec2 m_TextCursorPos;
+		Vec2 textBasePos;
+		Vec2 textPenPos;
+		Vec2 textCursorPos;
 
-		String m_Title = U"";
-		String m_Text = U"";
-		String m_PreviousText = U"";
-		String m_EditingText = U"";
+		String title = U"";
+		String text = U"";
+		String previousText = U"";
+		String editingText = U"";
 
-		int m_EditIndex = 0;
-		double m_CursorTimer = 0;
-		double m_KeyPressTimer = 0;
+		int editIndex = 0;
+		double cursorTimer = 0;
+		double keyPressTimer = 0;
 
-		Font m_Font;
+		Font font;
 
 		void LButtonDown() override;
 
-		void SetEditIndex(int index);
+		void setEditIndex(int _index);
 
-		bool JudgeTextChange();
-		void WhenTextChange();
-		void EraseText();
-		void DeleteText();
-		void ClipboardPaste();
-		void KeyInput(Input key, std::function<void()> func);
-		void KeyInput(InputCombination key, std::function<void()> func);
-		void TextInput();
-		void DrawCursor(Vec2 penPos);
-		void DrawText();
-		void ChangeCursorStyle() override;
+		bool judgeTextChange();
+		void whenTextChange();
+		void eraseText();
+		void deleteText();
+		void clipboardPaste();
+		void keyInput(Input _key, std::function<void()> _func);
+		void keyInput(InputCombination _key, std::function<void()> _func);
+		void textInput();
+		void drawCursor(Vec2 _penPos);
+		void drawText();
+		void changeCursorStyle() override;
 	public:
-		TextBoxMultipleLines(bool canEdit, String title);
+		TextBoxMultipleLines(bool _canEdit, String _title);
 
-		String GetText() const { return m_Text; }
+		String getText() const { return this->text; }
 
-		bool GetIsSelected() const { return m_IsSelected; }
+		bool getIsSelected() const { return this->isSelected; }
 
-		void Draw() override;
-		void InputUpdate() override;
-		void Update(const Point& pos, const Point& size);
+		void draw() override;
+		void inputUpdate() override;
+		void update(const Point& _pos, const Point& _size);
 	};
 }

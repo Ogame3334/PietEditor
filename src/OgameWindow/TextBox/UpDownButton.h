@@ -6,12 +6,12 @@
 namespace OgameWindow {
 	class UpDownButton : public ClickableObject {
 	private:
-		uint32 m_Width;
-		bool m_IsUp;
-		Shape2D m_Triangle;
+		uint32 width;
+		bool isUp;
+		Shape2D triangle;
 	public:
-		UpDownButton(uint32 width, bool isUp);
-		void Update(const Point& pos) override;
-		void Draw() override;
+		UpDownButton(uint32 _width, bool _isUp);
+		void update(const Point& _pos) override;
+		void draw() override;
 	};
 }

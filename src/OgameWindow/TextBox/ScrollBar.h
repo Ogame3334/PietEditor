@@ -9,38 +9,38 @@ namespace OgameWindow {
 	private:
 		const uint32 Width = 16;
 
-		Rect m_Region;
-		UpDownButton m_UpButton{ Width, true };
-		UpDownButton m_DownButton{ Width, false };
-		Rect m_Bar;
-		int m_BarLocalPosY = 0;
+		Rect region;
+		UpDownButton upButton{ Width, true };
+		UpDownButton downButton{ Width, false };
+		Rect bar;
+		int barLocalPosY = 0;
 
-		bool m_IsHolding;
-		bool m_Enable = true;
+		bool isHolding;
+		bool enable = true;
 
-		int m_DisplayHeight;
-		int m_RegionHeight;
+		int displayHeight;
+		int regionHeight;
 
 		/// @brief 0～1の値をとる
-		double m_Value = 0;
+		double value = 0;
 
 		void LButtonDown() override;
 
-		void AddBarLocalPosY(int y);
+		void addBarLocalPosY(int _y);
 	public:
 		ScrollBar() = default;
-		ScrollBar(uint32 width, int height, int displayHeight, int regionHeight);
+		ScrollBar(uint32 _width, int _height, int _displayHeight, int _regionHeight);
 
-		void SetDisplayHeight(int height) { m_DisplayHeight = height; }
-		void SetRegionHeight(int height) { m_RegionHeight = height; }
+		void setDisplayHeight(int _height) { this->displayHeight = _height; }
+		void setRegionHeight(int _height) { this->regionHeight = _height; }
 
-		void SetValue(int value);
-		void SetEnable(bool enable) { m_Enable = enable; }
+		void setValue(int _value);
+		void setEnable(bool _enable) { this->enable = _enable; }
 
-		bool GetEnable() const { return m_Enable; }
+		bool getEnable() const { return this->enable; }
 
-		void Draw() override;
-		void InputUpdate() override;
-		double UpdateDouble(const Point& pos, int height);
+		void draw() override;
+		void inputUpdate() override;
+		double updateDouble(const Point& _pos, int _height);
 	};
 }

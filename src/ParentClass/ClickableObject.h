@@ -4,8 +4,8 @@
 
 class ClickableObject : public DisplayObject{
 private:
-	Rect m_ClickableRange;
-	bool m_Enable = true;
+	Rect clickableRange;
+	bool enable = true;
 protected:
 	/// @brief 左クリックを押した瞬間
 	virtual void LButtonDown() {}
@@ -27,19 +27,19 @@ protected:
 	virtual void MButtonUp() {}
 	/// @brief クリック可能範囲を設定
 	/// @param rect クリック可能範囲
-	void SetClickableRange(const Rect& rect) { m_ClickableRange = rect; }
+	void setClickableRange(const Rect& rect) { this->clickableRange = rect; }
 	/// @brief クリック可能範囲を取得
 	/// @return クリック可能範囲
-	Rect GetClickableRange() { return m_ClickableRange; }
+	Rect getClickableRange() { return this->clickableRange; }
 	/// @brief カーソルスタイルを変更します
-	virtual void ChangeCursorStyle() { Cursor::RequestStyle(CursorStyle::Hand); }
+	virtual void changeCursorStyle() { Cursor::RequestStyle(CursorStyle::Hand); }
 public:
-	void SetEnable(bool enable) { m_Enable = enable; }
-	bool GetEnable() const { return m_Enable; }
+	void setEnable(bool _enable) { this->enable = _enable; }
+	bool getEnable() const { return this->enable; }
 	/// @brief ユーザーの入力を受け付ける
 	/// @brief whileでUpdateの後に呼ばれる
-	virtual void InputUpdate();
+	virtual void inputUpdate();
 	/// @brief オブジェクトの状態を更新するメソッド
 	/// @param pos オブジェクトの座標
-	virtual void Update(const Point& pos) override;
+	virtual void update(const Point& _pos) override;
 };

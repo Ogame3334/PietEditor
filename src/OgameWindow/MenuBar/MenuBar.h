@@ -7,43 +7,43 @@
 namespace OgameWindow {
 	class MenuBar : public DisplayObject{
 	private:
-		bool m_isJapanese;
-		Array<MenuButton> m_Buttons = {};
+		bool isJapanese;
+		Array<MenuButton> buttons = {};
 
-		bool m_IsMenuBoxON = false;
-		MenuBox m_MenuBox{};
+		bool isMenuBoxON = false;
+		MenuBox menuBox{};
 
 		/// @brief メニューボタンの挙動を設定する
-		void ButtonFunctionSetUp();
+		void buttonFunctionSetUp();
 	public:
 		/// @brief コンストラクタ
 		MenuBar();
 
 		/// @brief メニューボックスを設定する
 		/// @param box メニューボックス
-		void SetMenuBox(const MenuBox& box) { m_MenuBox = box; }
+		void setMenuBox(const MenuBox& _box) { this->menuBox = _box; }
 
 		/// @brief メニューボックスを削除する
-		void RemoveMenuBox() { m_MenuBox = MenuBox(); }
+		void removeMenuBox() { this->menuBox = MenuBox(); }
 
 		/// @brief メニューボックスを取得する
 		/// @return メニューボックス
-		MenuBox GetMenuBox() const { return m_MenuBox; }
+		MenuBox getMenuBox() const { return this->menuBox; }
 
 		/// @brief メニューボックスを表示、削除などを切り替える
 		/// @param box 
-		void ToggleMenuBox(const MenuBox& box);
+		void toggleMenuBox(const MenuBox& _box);
 
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
-		void Draw() override;
+		void draw() override;
 
 		/// @brief ユーザーの入力を受け付ける
 		/// @brief whileでUpdateの後に呼ばれる
-		void InputUpdate();
+		void inputUpdate();
 
 		/// @brief オブジェクトの状態を更新するメソッド
 		/// @param pos オブジェクトの座標
-		void Update(const Point& pos) override;
+		void update(const Point& _pos) override;
 	};
 }

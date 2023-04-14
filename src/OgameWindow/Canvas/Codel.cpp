@@ -6,27 +6,27 @@
 
 namespace OgameWindow {
 	void Codel::LButtonPressed() {
-		if (Judge::isCursorInRect(m_Tile)) {
-			m_ColorID = User::State::GetDrawingColorID();
+		if (Judge::IsCursorInRect(this->tile)) {
+			this->colorID = User::State::GetDrawingColorID();
 		}
 	}
 	void Codel::RButtonDown() {
-		if (Judge::isCursorInRect(m_Tile))
-			User::State::SetDrawingColorID(m_ColorID);
+		if (Judge::IsCursorInRect(this->tile))
+			User::State::SetDrawingColorID(this->colorID);
 	}
-	void Codel::Draw() {
-		Point pos = DisplayObject::GetPosition();
-		m_Tile = Rect{ pos.x, pos.y, CodelSize, CodelSize };
-		m_Tile.draw(Constants::Colors[m_ColorID]);
-		m_Tile.drawFrame(1, 0, Palette::Gray);
+	void Codel::draw() {
+		Point pos = DisplayObject::getPosition();
+		this->tile = Rect{ pos.x, pos.y, CodelSize, CodelSize };
+		this->tile.draw(Constants::Colors[this->colorID]);
+		this->tile.drawFrame(1, 0, Palette::Gray);
 	}
-	void Codel::Update(const Point& pos) {
-		DisplayObject::SetSize(Point(m_Tile.w, m_Tile.h));
-		ClickableObject::SetClickableRange(m_Tile);
-		ClickableObject::Update(pos);
+	void Codel::update(const Point& _pos) {
+		DisplayObject::setSize(Point(this->tile.w, this->tile.h));
+		ClickableObject::setClickableRange(this->tile);
+		ClickableObject::update(_pos);
 		if (User::State::GetMode() == Mode::DEBUG)
-			SetEnable(false);
+			setEnable(false);
 		else
-			SetEnable(true);
+			setEnable(true);
 	}
 }

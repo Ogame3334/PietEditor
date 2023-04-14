@@ -3,35 +3,35 @@
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	UpDownButton::UpDownButton(uint32 width, bool isUp) {
-		if(isUp)
-			m_Triangle = Shape2D::Ngon(3, width / 2, Point(0, 0));
+	UpDownButton::UpDownButton(uint32 _width, bool _isUp) {
+		if(_isUp)
+			this->triangle = Shape2D::Ngon(3, _width / 2, Point(0, 0));
 		else
-			m_Triangle = Shape2D::Ngon(3, width / 2, Point(0, 0), 180_deg);
-		m_IsUp = isUp;
-		m_Width = width;
-		SetPosition(Point(0, 0));
-		SetClickableRange(Rect(0, 0, width, width));
-		SetSize(Point(width, width));
+			this->triangle = Shape2D::Ngon(3, _width / 2, Point(0, 0), 180_deg);
+		this->isUp = _isUp;
+		this->width = _width;
+		setPosition(Point(0, 0));
+		setClickableRange(Rect(0, 0, _width, _width));
+		setSize(Point(_width, _width));
 	}
 
-	void UpDownButton::Update(const Point& pos) {
-		ClickableObject::Update(pos);
-		if (m_IsUp)
-			m_Triangle = Shape2D::Ngon(3, m_Width * 3 / 8, pos + Point(m_Width / 2, m_Width / 2));
+	void UpDownButton::update(const Point& _pos) {
+		ClickableObject::update(_pos);
+		if (this->isUp)
+			this->triangle = Shape2D::Ngon(3, this->width * 3 / 8, _pos + Point(this->width / 2, this->width / 2));
 		else
-			m_Triangle = Shape2D::Ngon(3, m_Width * 3 / 8, pos + Point(m_Width / 2, m_Width / 2), 180_deg);
-		SetPosition(pos);
-		SetClickableRange(Rect(pos, m_Width, m_Width));
+			this->triangle = Shape2D::Ngon(3, this->width * 3 / 8, _pos + Point(this->width / 2, this->width / 2), 180_deg);
+		setPosition(_pos);
+		setClickableRange(Rect(_pos, this->width, this->width));
 	}
 
-	void UpDownButton::Draw() {
-		GetClickableRange().draw(m_ThemePtr->ScrollBarButtonBackColor);
-		if (Judge::isCursorInRect(GetClickableRange())) {
-			m_Triangle.draw(m_ThemePtr->ScrollBarButtonTriangleActiveColor);
+	void UpDownButton::draw() {
+		getClickableRange().draw(this->themePtr->ScrollBarButtonBackColor);
+		if (Judge::IsCursorInRect(getClickableRange())) {
+			this->triangle.draw(this->themePtr->ScrollBarButtonTriangleActiveColor);
 		}
 		else {
-			m_Triangle.draw(m_ThemePtr->ScrollBarButtonTriangleColor);
+			this->triangle.draw(this->themePtr->ScrollBarButtonTriangleColor);
 		}
 	}
 }

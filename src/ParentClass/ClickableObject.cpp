@@ -3,9 +3,9 @@
 #include "../User/User.h"
 #include "../Judge/Judge.h"
 
-void ClickableObject::InputUpdate() {
-	if (User::State::GetNowSelectObjectID() == GetObjectID() and m_Enable) {
-		ChangeCursorStyle();
+void ClickableObject::inputUpdate() {
+	if (User::State::GetNowSelectObjectID() == this->getObjectID() and this->enable) {
+		changeCursorStyle();
 		if (MouseL.down()) LButtonDown();
 		if (MouseL.pressed()) LButtonPressed();
 		if (MouseL.up()) LButtonUp();
@@ -18,9 +18,9 @@ void ClickableObject::InputUpdate() {
 	}
 }
 
-void ClickableObject::Update(const Point& pos) {
-	DisplayObject::Update(pos);
-	if (Judge::isCursorInRect(m_ClickableRange)) {
-		User::State::SetNowSelectObjectID(GetObjectID());
+void ClickableObject::update(const Point& _pos) {
+	DisplayObject::update(_pos);
+	if (Judge::IsCursorInRect(this->clickableRange)) {
+		User::State::SetNowSelectObjectID(this->getObjectID());
 	}
 }

@@ -8,18 +8,18 @@
 namespace OgameWindow {
 	class ColorDish : public ClickableObject{
 	private:
-		int m_id;
-		Color m_Color;
-		String m_Order;
+		int id;
+		Color color;
+		String order;
 		inline static int Size = 70;
 
-		Rect m_outline;
-		Font m_Font{ FontMethod::MSDF, 16, m_ThemePtr->ColorDishFont};
+		Rect outline;
+		Font font{ FontMethod::MSDF, 16, this->themePtr->ColorDishFont};
 
 	public:
-		ColorDish(int id) :
-			m_id(id), m_Color(Constants::Colors[id]),
-			m_Order(Constants::Orders[id])
+		ColorDish(int _id) :
+			id(_id), color(Constants::Colors[_id]),
+			order(Constants::Orders[_id])
 		{};
 
 		ColorDish() {}
@@ -30,15 +30,15 @@ namespace OgameWindow {
 
 		/// @brief カラーディッシュIDを取得
 		/// @return カラーディッシュID
-		int GetID() const { return m_id; };
+		int getID() const { return this->id; };
 
 		/// @brief カラーディッシュの色を取得
 		/// @return カラーディッシュの色
-		Color GetColor() const { return m_Color; };
+		Color getColor() const { return this->color; };
 
 		/// @brief カラーディッシュの命令を取得
 		/// @return カラーディッシュの命令
-		String GetOrder() const { return m_Order; };
+		String getOrder() const { return this->order; };
 
 		/// @brief 左クリックを押した瞬間
 		void LButtonDown() override;
@@ -49,14 +49,14 @@ namespace OgameWindow {
 		/// @brief カラーディッシュ上に命令を表示
 		/// @param pos 座標
 		/// @param font フォント
-		void WriteOrder(const Point& pos, const Font& font);
+		void writeOrder(const Point& _pos, const Font& _font);
 
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
-		void Draw() override;
+		void draw() override;
 
 		/// @brief オブジェクトの状態を更新するメソッド
 		/// @param pos オブジェクトの座標
-		void Update(const Point& pos) override;
+		void update(const Point& pos) override;
 	};
 }

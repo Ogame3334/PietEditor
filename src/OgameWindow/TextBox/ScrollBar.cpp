@@ -4,92 +4,92 @@
 
 namespace OgameWindow {
 	void ScrollBar::LButtonDown() {
-		m_IsHolding = true;
+		this->isHolding = true;
 	}
 
-	void ScrollBar::AddBarLocalPosY(int y) {
-		m_BarLocalPosY += y;
-		if (m_BarLocalPosY < 0)
-			m_BarLocalPosY = 0;
-		int temp = GetSize().y - 2 * Width - m_Bar.h;
-		if (m_BarLocalPosY > temp)
-			m_BarLocalPosY = temp;
+	void ScrollBar::addBarLocalPosY(int y) {
+		this->barLocalPosY += y;
+		if (this->barLocalPosY < 0)
+			this->barLocalPosY = 0;
+		int temp = getSize().y - 2 * Width - bar.h;
+		if (this->barLocalPosY > temp)
+			this->barLocalPosY = temp;
 	}
 
-	void ScrollBar::SetValue(int value) {
-		if (value == 0) {
-			m_Value = value;
-			m_BarLocalPosY = 0;
+	void ScrollBar::setValue(int _value) {
+		if (_value == 0) {
+			this->value = _value;
+			this->barLocalPosY = 0;
 		}
-		else if (value == 1) {
-			m_Value = value;
-			m_BarLocalPosY = GetSize().y - Width - m_Bar.h;
+		else if (_value == 1) {
+			this->value = _value;
+			this->barLocalPosY = getSize().y - Width - this->bar.h;
 		}
 		else {
-			m_Value = value;
-			m_BarLocalPosY = value * (GetSize().y - 2 * Width - m_Bar.h);
+			this->value = _value;
+			this->barLocalPosY = _value * (getSize().y - 2 * Width - this->bar.h);
 		}
 	}
 
-	ScrollBar::ScrollBar(uint32 width, int height, int displayHeight, int regionHeight) :
-		Width(width),
-		m_DisplayHeight(displayHeight),
-		m_RegionHeight(regionHeight)
+	ScrollBar::ScrollBar(uint32 _width, int _height, int _displayHeight, int _regionHeight) :
+		Width(_width),
+		displayHeight(_displayHeight),
+		regionHeight(_regionHeight)
 	{
-		m_Region = Rect(GetPosition(), Width, height);
-		m_Bar = Rect(GetPosition() + Point(2, Width * 11 / 10), Width - 4, (int)((height - 2 * Width) * ((float)displayHeight / regionHeight)));
-		SetClickableRange(m_Bar);
-		SetPosition(Point(0, 0));
-		SetSize(Point(m_Region.w, m_Region.h));
+		this->region = Rect(getPosition(), Width, _height);
+		this->bar = Rect(getPosition() + Point(2, Width * 11 / 10), Width - 4, (int)((_height - 2 * Width) * ((float)_displayHeight / _regionHeight)));
+		setClickableRange(this->bar);
+		setPosition(Point(0, 0));
+		setSize(Point(this->region.w, this->region.h));
 	}
 
-	void ScrollBar::Draw() {
-		if (m_Enable) {
-			m_Region.drawFrame(1, m_ThemePtr->ScrollBarOutlineColor);
-			m_Region.draw(m_ThemePtr->ScrollBarBackColor);
-			m_UpButton.Draw();
-			m_DownButton.Draw();
-			if (Judge::isCursorInRect(GetClickableRange()) or m_IsHolding)
-				m_Bar.draw(m_ThemePtr->ScrollBarActiveColor);
+	void ScrollBar::draw() {
+		if (this->enable) {
+			this->region.drawFrame(1, themePtr->ScrollBarOutlineColor);
+			this->region.draw(themePtr->ScrollBarBackColor);
+			this->upButton.draw();
+			this->downButton.draw();
+			if (Judge::IsCursorInRect(getClickableRange()) or isHolding)
+				this->bar.draw(themePtr->ScrollBarActiveColor);
 			else
-				m_Bar.draw(m_ThemePtr->ScrollBarColor);
+				this->bar.draw(themePtr->ScrollBarColor);
 		}
 	}
 
-	void ScrollBar::InputUpdate() {
-		if (m_Enable) {
-			ClickableObject::InputUpdate();
-			m_UpButton.InputUpdate();
-			m_DownButton.InputUpdate();
-			if (m_IsHolding) {
+	void ScrollBar::inputUpdate() {
+		if (this->enable) {
+			ClickableObject::inputUpdate();
+			this->upButton.inputUpdate();
+			this->downButton.inputUpdate();
+			if (this->isHolding) {
 				Cursor::RequestStyle(CursorStyle::Hand);
-				AddBarLocalPosY(Cursor::Delta().y);
+				addBarLocalPosY(Cursor::Delta().y);
 			}
 		}
 	}
 
-	double ScrollBar::UpdateDouble(const Point& pos, int height) {
-		ClickableObject::Update(pos);
-		SetSize(Point(GetSize().x, height));
+	double ScrollBar::updateDouble(const Point& pos, int height) {
+		ClickableObject::update(pos);
+		setSize(Point(getSize().x, height));
 		if (MouseL.up())
-			m_IsHolding = false;
+			this->isHolding = false;
 		//uint32 height = GetSize().y;
-		m_Region = Rect(GetPosition(), Width, height);
-		m_UpButton.Update(pos);
-		m_DownButton.Update(pos + Point(0, height - Width));
-		m_Bar = Rect(GetPosition() + Point(2, Width * 11 / 10 + m_BarLocalPosY), Width - 4, (int)((height - 2 * Width) * ((float)m_DisplayHeight / m_RegionHeight)));
-		SetClickableRange(m_Bar);
+		this->region = Rect(getPosition(), Width, height);
+		this->upButton.update(pos);
+		this->downButton.update(pos + Point(0, height - Width));
+		this->bar = Rect(getPosition() + Point(2, Width * 11 / 10 + this->barLocalPosY), Width - 4, (int)((height - 2 * Width) * ((float)this->displayHeight / this->regionHeight)));
+		setClickableRange(bar);
 
-		if (m_Enable) {
+		if (this->enable) {
 
-			int temp = GetSize().y - 2 * Width - m_Bar.h;
+			int temp = getSize().y - 2 * Width - bar.h;
 
-			if (m_DisplayHeight < m_RegionHeight) {
-				if (m_BarLocalPosY > temp)
-					m_BarLocalPosY = temp;
+			if (this->displayHeight < this->regionHeight) {
+				if (this->barLocalPosY > temp)
+					this->barLocalPosY = temp;
 			}
 
-			return (double)m_BarLocalPosY / temp;
+			return (double)this->barLocalPosY / temp;
 		}
 		else {
 			return 0;

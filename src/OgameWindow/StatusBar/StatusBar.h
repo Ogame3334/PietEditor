@@ -8,10 +8,10 @@
 namespace OgameWindow {
 	class StatusBar : DisplayObject {
 	private:
-		String m_RightString = U"";
-		Font m_Font{ 15, m_ThemePtr->StatusBarFont };
+		String rightString = U"";
+		Font font{ 15, themePtr->StatusBarFont };
 
-		void ChangeRightString(const Canvas& canvas);
+		void changeRightString(const Canvas& _canvas);
 	public:
 		/// @brief コンストラクタ
 		StatusBar();
@@ -19,8 +19,8 @@ namespace OgameWindow {
 		static const int Height = 25;
 
 		/// @brief 描画する
-		void Draw() override;
+		void draw() override;
 		/// @brief 更新する
-		void Update(const Canvas& canvas);
+		void update(const Canvas& _canvas);
 	};
 }

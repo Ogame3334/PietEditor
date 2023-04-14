@@ -4,51 +4,51 @@
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	ColorPalette::ColorPalette(const Point& pos)
+	ColorPalette::ColorPalette(const Point& _pos)
 	{
-		SetPosition(pos);
+		setPosition(_pos);
 		for (int i = 0; i < 21; i++) {
-			m_colorDishes.push_back(ColorDish(i));
+			this->colorDishes.push_back(ColorDish(i));
 		}
-		SetSize(Point(ColorDish::GetSize() * 7 + 6, ColorDish::GetSize() * 3 + 6));
+		setSize(Point(ColorDish::GetSize() * 7 + 6, ColorDish::GetSize() * 3 + 6));
 	}
 
-	void ColorPalette::Draw() {
-		Point pos = GetPosition();
-		Point size = GetSize();
+	void ColorPalette::draw() {
+		Point pos = getPosition();
+		Point size = getSize();
 		Rect outline{ pos.x, pos.y, size.x, size.y };
-		outline.drawFrame(1, 0, m_ThemePtr->ColorPaletteOutlineColor);
+		outline.drawFrame(1, 0, this->themePtr->ColorPaletteOutlineColor);
 
 		for (int i = 0; i < 21; i++) {
-			m_colorDishes[i].Draw();
+			this->colorDishes[i].draw();
 		}
 		
 		if (User::Setting::GetInputMode() == 1)
-			ColorSelect::Draw(pos);
+			ColorSelect::draw(pos);
 	};
 
-	void ColorPalette::InputUpdate() {
+	void ColorPalette::inputUpdate() {
 		for (int i = 0; i < 21; i++) {
-			m_colorDishes[i].InputUpdate();
+			this->colorDishes[i].inputUpdate();
 		}
 	}
 
-	void ColorPalette::Update(const Point& pos) {
+	void ColorPalette::update(const Point& _pos) {
 		int colorDishSize = ColorDish::GetSize();
 		for (int i = 0; i < 21; i++) {
 			if (i < 18) {
-				m_colorDishes[i].Update(Point(pos.x + colorDishSize * (i % 6) + 4, pos.y + colorDishSize * (int)(i / 6) + 4));
+				this->colorDishes[i].update(Point(_pos.x + colorDishSize * (i % 6) + 4, _pos.y + colorDishSize * (int)(i / 6) + 4));
 			}
 			else {
-				m_colorDishes[i].Update(Point(pos.x + colorDishSize * 6 + 4, pos.y + colorDishSize * (int)(i - 18) + 4));
+				this->colorDishes[i].update(Point(_pos.x + colorDishSize * 6 + 4, _pos.y + colorDishSize * (int)(i - 18) + 4));
 			}
 		}
 
 		if (User::Setting::GetInputMode() == 1) {
 			ColorSelect::SetColorDishSize(colorDishSize);
-			ColorSelect::Update(pos);
+			ColorSelect::update(_pos);
 		}
 
-		DisplayObject::Update(pos);
+		DisplayObject::update(_pos);
 	}
 }

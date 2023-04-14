@@ -7,58 +7,58 @@
 namespace OgameWindow {
 	class MenuButton : public ClickableObject{
 	private:
-		String m_IdName;
-		String m_DisplayName;
-		int m_Width;
+		String idName;
+		String displayName;
+		int width;
 
-		std::function<void()> m_Function;
+		std::function<void()> function;
 
-		Font m_Font{ 12 , m_ThemePtr->MenuButtonFont};
+		Font font{ 12 , themePtr->MenuButtonFont};
 
 		//bool isDown = false;
 		//bool isUp = false;
 
 		/// @brief ボタンが押された時の挙動
-		void Clicked();
+		void clicked();
 	public:
 		/// @brief コンストラクタ
 		/// @param id_name ID名
 		/// @param display_name 表示名
-		MenuButton(const String& id_name, const String& display_name);
+		MenuButton(const String& _idName, const String& _displayName);
 		/// @brief コンストラクタ
 		/// @param id_name ID名
 		/// @param display_name 表示名
 		/// @param width 横幅
-		MenuButton(const String& id_name, const String& display_name, int width);
+		MenuButton(const String& _idName, const String& _displayName, int _width);
 
 		/// @brief ボタンの機能を設定
 		/// @param function ボタンの機能
-		void SetFunction(std::function<void()> function) { m_Function = function; }
+		void setFunction(std::function<void()> _function) { this->function = _function; }
 
 		/// @brief ボタンの機能を取得
 		/// @return ボタンの機能
-		std::function<void()> GetFunction() { return m_Function; }
+		std::function<void()> getFunction() { return this->function; }
 
 		/// @brief ボタンの機能を削除
-		void RemoveFunction() { m_Function = []() { return; }; }
+		void removeFunction() { this->function = []() { return; }; }
 
 		/// @brief ID名を取得
 		/// @return ID名
-		String GetIDName() const { return m_IdName; }
+		String getIDName() const { return this->idName; }
 
 		/// @brief 表示名を取得
 		/// @return 表示名
-		String GetDisplayName() const { return m_DisplayName; }
+		String getDisplayName() const { return this->displayName; }
 
 		/// @brief 左クリックを押した瞬間
 		void LButtonDown() override;
 
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
-		void Draw() override;
+		void draw() override;
 
 		/// @brief オブジェクトの状態を更新するメソッド
 		/// @param pos オブジェクトの座標
-		void Update(const Point& pos) override;
+		void update(const Point& _pos) override;
 	};
 }

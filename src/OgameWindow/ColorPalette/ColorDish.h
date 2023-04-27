@@ -1,17 +1,16 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
 #include "../../Constants/Constants.h"
-#include "../../ParentClass/ClickableObject.h"
-#include "../../ParentClass/ClickableObject.h"
+#include "../../ParentClass/DisplayObject.h"
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	class ColorDish : public ClickableObject{
+	class ColorDish : public DisplayObject{
 	private:
 		int id;
 		Color color;
 		String order;
-		inline static int Size = 70;
+		inline static int DishSize = 70;
 
 		Rect outline;
 		Font font{ FontMethod::MSDF, 16, this->themePtr->ColorDishFont};
@@ -22,11 +21,11 @@ namespace OgameWindow {
 			order(Constants::Orders[_id])
 		{};
 
-		ColorDish() {}
+		ColorDish() = default;
 
 		/// @brief カラーディッシュの表示サイズを取得
 		/// @return カラーディッシュの表示サイズ
-		static int GetSize() { return Size; }
+		static int GetSize() { return DishSize; }
 
 		/// @brief カラーディッシュIDを取得
 		/// @return カラーディッシュID
@@ -51,12 +50,14 @@ namespace OgameWindow {
 		/// @param font フォント
 		void writeOrder(const Point& _pos, const Font& _font);
 
+		void reload(const Point&, const Size&) override;
+
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
 		void draw() override;
 
 		/// @brief オブジェクトの状態を更新するメソッド
 		/// @param pos オブジェクトの座標
-		void update(const Point& pos) override;
+		void update() override;
 	};
 }

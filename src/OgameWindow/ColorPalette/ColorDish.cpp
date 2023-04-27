@@ -22,18 +22,31 @@ namespace OgameWindow {
 	}
 
 	void ColorDish::writeOrder(const Point& _pos, const Font& _font) {
-		_font(this->order).draw(TextStyle::Outline(0.30, Palette::White), Arg::center = Point(_pos.x + Size / 2, _pos.y + Size / 2), this->themePtr->ColorDishFontColor);
+		_font(this->order).draw(TextStyle::Outline(0.30, Palette::White), Arg::center = Point(_pos.x + DishSize / 2, _pos.y + DishSize / 2), this->themePtr->ColorDishFontColor);
+	}
+
+	void ColorDish::reload(const Point& _pos, const Size& _size) {
+		DisplayObject::reload(_pos, _size);
+		if (this->id < 18)
+			order = Constants::Orders[Constants::Calc::ColorIDSub(id)];
+		if (this->id == 20) {
+			int _id = User::State::GetDrawingColorID();
+			this->color = Constants::Colors[_id];
+			this->order = U"";
+		}
+		setClickableRange(this->outline);
+		//ClickableObject::update(_pos);
 	}
 
 	void ColorDish::draw() {
 		Point pos = DisplayObject::getPosition();
-		this->outline = Rect{ pos.x, pos.y, Size - 2, Size - 2 };
-		Rect color{ pos.x + 3, pos.y + 3, Size - 8, Size - 8 };
+		this->outline = Rect{ pos.x, pos.y, DishSize - 2, DishSize - 2 };
+		Rect _color{ pos.x + 3, pos.y + 3, DishSize - 8, DishSize - 8 };
 		this->outline.drawFrame(1, 0, this->themePtr->ColorDishOutlineColor);
-		color.draw(this->color);
+		_color.draw(this->color);
 		writeOrder(pos, this->font);
 	}
-	void ColorDish::update(const Point& _pos) {
+	/*void ColorDish::update(const Point& _pos) {
 		if (this->id < 18)
 			order = Constants::Orders[Constants::Calc::ColorIDSub(id)];
 		if (this->id == 20) {
@@ -43,5 +56,8 @@ namespace OgameWindow {
 		}
 		setClickableRange(this->outline);
 		ClickableObject::update(_pos);
+	}*/
+	void ColorDish::update() {
+
 	}
 }

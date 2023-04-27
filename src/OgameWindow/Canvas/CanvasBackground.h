@@ -14,6 +14,7 @@ namespace OgameWindow {
 		/// @param _pos 座標
 		CanvasBackground(Point _pos) {
 			setPosition(_pos);
+			setSize(Point(Scene::Size().x - _pos.x - 20, Scene::Size().y - _pos.y - 300));
 		}
 		/// @brief 背景の範囲をRectで取得
 		/// @return 背景の範囲

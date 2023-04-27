@@ -2,7 +2,7 @@
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	void StatusBar::changeRightString(const Canvas& canvas) {
+	void StatusBar::changeRightString() {
 		this->rightString = U"Width: " + Format(canvas.getCanvasSize().x)
 					+ U",  Height: " + Format(canvas.getCanvasSize().y)
 					+ U",  CodelSize: " + Format(Codel::GetCodelSize())
@@ -14,10 +14,18 @@ namespace OgameWindow {
 		setPosition(Point(0, Window::GetState().virtualSize.y - Height));
 	}
 
+	void StatusBar::reload(const Point& _pos, const Size& _size) {
+		setSize(Point(Window::GetState().virtualSize.x, Height));
+		setPosition(Point(0, Window::GetState().virtualSize.y - Height));
+		changeRightString();
+		_pos;
+		_size;
+	}
+
 	void StatusBar::draw() {
 		Point pos = getPosition();
-		Point size = getSize();
-		Rect rect{ pos, size };
+		Point _size = getSize();
+		Rect rect{ pos, _size };
 		if(User::State::GetMode() == Mode::EDIT)
 			rect.draw(this->themePtr->StatusBarBackColor);
 		else
@@ -39,9 +47,13 @@ namespace OgameWindow {
 		//Console << right_word.region().size;
 	}
 
-	void StatusBar::update(const Canvas& canvas) {
+	/*void StatusBar::update(const Canvas& canvas) {
 		setSize(Point(Window::GetState().virtualSize.x, Height));
 		setPosition(Point(0, Window::GetState().virtualSize.y - Height));
 		changeRightString(canvas);
+	}*/
+
+	void StatusBar::update() {
+
 	}
 }

@@ -4,23 +4,23 @@
 
 namespace OgameWindow {
 	void MenuBar::buttonFunctionSetUp() {
-		bool isJapanese = User::Setting::GetIsJapanese();
+		//bool _isJapanese = User::Setting::GetIsJapanese();
 		MenuBox temp_menubox{ 150 , 0 };
 		temp_menubox.setPosition(Point(2, 20));
-		temp_menubox.append(OgameWindow::MenuButton(U"Save", (isJapanese) ? U"保存" : U"Save", temp_menubox.getWidth()));
-		temp_menubox.append(OgameWindow::MenuButton(U"Exit", (isJapanese) ? U"終了" : U"Exit", temp_menubox.getWidth()));
+		temp_menubox.append(OgameWindow::MenuButton(U"Save", (this->isJapanese) ? U"保存" : U"Save", temp_menubox.getWidth()));
+		temp_menubox.append(OgameWindow::MenuButton(U"Exit", (this->isJapanese) ? U"終了" : U"Exit", temp_menubox.getWidth()));
 		temp_menubox.setButtonFunction(0, []() {});
 		temp_menubox.setButtonFunction(1, []() { System::Exit(); });
 		this->buttons[0].setFunction([this, temp_menubox]() { MenuBar::toggleMenuBox(temp_menubox); });
 	}
 
 	void MenuBar::toggleMenuBox(const MenuBox& _box) {
-		MenuBox menuBox = getMenuBox();
+		MenuBox _menuBox = getMenuBox();
 		if (not this->isMenuBoxON) {
 			setMenuBox(_box);
 			this->isMenuBoxON = true;
 		}
-		else if(_box.getID() == menuBox.getID()){
+		else if(_box.getID() == _menuBox.getID()){
 			removeMenuBox();
 			this->isMenuBoxON = false;
 		}
@@ -43,6 +43,19 @@ namespace OgameWindow {
 			MenuButton{U"Theme", (this->isJapanese) ? U"テーマ" : U"Theme"}
 		};
 		buttonFunctionSetUp();
+	}
+
+	void MenuBar::reload(const Point& _pos, const Size& _size) {
+		DisplayObject::reload(_pos, _size);
+		int put_x = 0;
+		for (auto& button : this->buttons) {
+			//Console << pos + Point(put_x + 2, 2);
+			button.reload(_pos + Point(put_x + 2, 2), button.getSize());
+			put_x += button.getSize().x;
+		}
+		if (this->menuBox.getID() != -1) {
+			this->menuBox.reload(this->menuBox.getPosition(), this->menuBox.getSize());
+		}
 	}
 
 	void MenuBar::draw() {
@@ -76,7 +89,11 @@ namespace OgameWindow {
 		}
 	}
 
-	void MenuBar::update(const Point& _pos) {
+	void MenuBar::update() {
+
+	}
+
+	/*void MenuBar::update(const Point& _pos) {
 		int put_x = 0;
 		for (auto& button : this->buttons) {
 			//Console << pos + Point(put_x + 2, 2);
@@ -87,5 +104,5 @@ namespace OgameWindow {
 			this->menuBox.update(this->menuBox.getPosition());
 		}
 		DisplayObject::update(_pos);
-	}
+	}*/
 }

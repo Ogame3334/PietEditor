@@ -1,10 +1,10 @@
 ﻿#pragma once
 
 #include <Siv3D.hpp>
-#include "../../ParentClass/ClickableObject.h"
+#include "../../ParentClass/DisplayObject.h"
 
 namespace OgameWindow{
-	class Codel : public ClickableObject{
+	class Codel : public DisplayObject{
 	private:
 		Point coordinate;
 		int colorID;
@@ -17,11 +17,13 @@ namespace OgameWindow{
 		/// @brief 右クリックを押した瞬間
 		void RButtonDown() override;
 	public:
+		Codel() = default;
 		/// @brief コンストラクタ
-		/// @param coordinate コーデるのキャンバス内での座標
+		/// @param coordinate コーデルのキャンバス内での座標
 		Codel(const Point& coordinate) :
 			coordinate(coordinate),
-			colorID(18)
+			colorID(18),
+			tile(Rect())
 		{}
 
 		/// @brief コーデルサイズを設定
@@ -34,9 +36,11 @@ namespace OgameWindow{
 
 		/// @brief キャンバスを設定
 		/// @param canvas キャンバス
-		static void setCanvas(Rect _canvas) {
+		static void SetCanvas(Rect _canvas) {
 			Canvas = _canvas;
 		}
+
+		void reload(const Point&, const Size&) override;
 
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
@@ -44,6 +48,6 @@ namespace OgameWindow{
 
 		/// @brief オブジェクトの状態を更新するメソッド
 		/// @param pos オブジェクトの座標
-		void update(const Point& _pos) override;
+		//void update() override;
 	};
 }

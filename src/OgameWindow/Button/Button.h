@@ -1,10 +1,10 @@
 ﻿#pragma once
 
 #include <Siv3D.hpp>
-#include "../../ParentClass/ClickableObject.h"
+#include "../../ParentClass/DisplayObject.h"
 
 namespace OgameWindow {
-	class Button : public ClickableObject
+	class Button : public DisplayObject
 	{
 	private:
 		String idName;
@@ -49,12 +49,14 @@ namespace OgameWindow {
 		/// @brief 左クリックを押した瞬間
 		void LButtonDown() override;
 
+		void reload(const Point&, const Size&) override;
+
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
 		void draw() override;
 
 		/// @brief オブジェクトの状態を更新するメソッド
 		/// @param pos オブジェクトの座標
-		void update(const Point& pos) override;
+		void update() override;
 	};
 }

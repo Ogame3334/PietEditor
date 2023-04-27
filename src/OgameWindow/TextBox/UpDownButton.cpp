@@ -15,7 +15,11 @@ namespace OgameWindow {
 		setSize(Point(_width, _width));
 	}
 
-	void UpDownButton::update(const Point& _pos) {
+	void UpDownButton::update() {
+
+	}
+
+	/*void UpDownButton::update(const Point& _pos) {
 		ClickableObject::update(_pos);
 		if (this->isUp)
 			this->triangle = Shape2D::Ngon(3, this->width * 3 / 8, _pos + Point(this->width / 2, this->width / 2));
@@ -23,7 +27,7 @@ namespace OgameWindow {
 			this->triangle = Shape2D::Ngon(3, this->width * 3 / 8, _pos + Point(this->width / 2, this->width / 2), 180_deg);
 		setPosition(_pos);
 		setClickableRange(Rect(_pos, this->width, this->width));
-	}
+	}*/
 
 	void UpDownButton::draw() {
 		getClickableRange().draw(this->themePtr->ScrollBarButtonBackColor);

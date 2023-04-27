@@ -13,10 +13,28 @@ namespace OgameWindow {
 		setSize(Point(ColorDish::GetSize() * 7 + 6, ColorDish::GetSize() * 3 + 6));
 	}
 
+	void ColorPalette::reload(const Point& _pos, const Size& _size) {
+		DisplayObject::reload(_pos, _size);
+		int colorDishSize = ColorDish::GetSize();
+		for (int i = 0; i < 21; i++) {
+			if (i < 18) {
+				this->colorDishes[i].reload(Point(_pos.x + colorDishSize * (i % 6) + 4, _pos.y + colorDishSize * (int)(i / 6) + 4), _size);
+			}
+			else {
+				this->colorDishes[i].reload(Point(_pos.x + colorDishSize * 6 + 4, _pos.y + colorDishSize * (int)(i - 18) + 4), _size);
+			}
+		}
+
+		if (User::Setting::GetInputMode() == 1) {
+			ColorSelect::SetColorDishSize(colorDishSize);
+			ColorSelect::update(_pos);
+		}
+	}
+
 	void ColorPalette::draw() {
 		Point pos = getPosition();
-		Point size = getSize();
-		Rect outline{ pos.x, pos.y, size.x, size.y };
+		Point _size = getSize();
+		Rect outline{ pos.x, pos.y, _size.x, _size.y };
 		outline.drawFrame(1, 0, this->themePtr->ColorPaletteOutlineColor);
 
 		for (int i = 0; i < 21; i++) {
@@ -33,7 +51,7 @@ namespace OgameWindow {
 		}
 	}
 
-	void ColorPalette::update(const Point& _pos) {
+	/*void ColorPalette::update(const Point& _pos) {
 		int colorDishSize = ColorDish::GetSize();
 		for (int i = 0; i < 21; i++) {
 			if (i < 18) {
@@ -50,5 +68,9 @@ namespace OgameWindow {
 		}
 
 		DisplayObject::update(_pos);
+	}*/
+
+	void ColorPalette::update() {
+
 	}
 }

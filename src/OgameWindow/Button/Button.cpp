@@ -24,17 +24,23 @@ namespace OgameWindow {
 		getFunction()();
 	}
 
-	void Button::update(const Point& _pos) {
+	void Button::reload(const Point& _pos, const Size& _size) {
+
+	}
+
+	void Button::update(){}
+
+	/*void Button::update(const Point& _pos) {
 		ClickableObject::update(_pos);
 		Point size = getSize();
 		Rect frame{ _pos, size };
 		setClickableRange(frame);
 		//Console << GetPosition();
-	}
+	}*/
 
 	void Button::draw() {
 		auto word = this->font(this->displayName);
-		Point size = getSize();
+		Point _size = getSize();
 		Rect frame = getClickableRange();
 		Point pos = getPosition();
 		if (Judge::IsCursorInRect(frame) and MouseL.pressed()) {
@@ -52,6 +58,6 @@ namespace OgameWindow {
 		frame.drawFrame(1, 0, Palette::Black);
 
 		//Console << GetPosition();
-		word.drawAt(pos.x + size.x / 2, pos.y + size.y / 2, this->themePtr->MenuButtonFontColor);
+		word.drawAt(pos.x + _size.x / 2, pos.y + _size.y / 2, this->themePtr->MenuButtonFontColor);
 	}
 }

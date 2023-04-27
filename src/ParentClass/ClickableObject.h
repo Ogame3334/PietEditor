@@ -38,7 +38,7 @@ public:
 	bool getEnable() const { return this->enable; }
 	/// @brief ユーザーの入力を受け付ける
 	/// @brief whileでUpdateの後に呼ばれる
-	virtual void inputUpdate();
+	virtual void inputUpdate() override;
 	/// @brief オブジェクトの状態を更新するメソッド
 	/// @param pos オブジェクトの座標
 	virtual void update(const Point& _pos) override;

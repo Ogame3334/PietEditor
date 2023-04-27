@@ -1,15 +1,6 @@
-﻿#include <Siv3D.hpp> // OpenSiv3D v0.6.6
-#include "src/OgameWindow/ColorPalette/ColorPalette.h"
-#include "src/User/User.h"
-#include "src/Debug/Debug.h"
-#include "src/OgameWindow/MenuBar/MenuBox.h"
-#include "src/OgameWindow/MenuBar/MenuBar.h"
-#include "src/OgameWindow/Canvas/Canvas.h"
-#include "src/OgameWindow/Canvas/CanvasBackground.h"
-#include "src/OgameWindow/StatusBar/StatusBar.h"
-#include "src/OgameWindow/TextBox/TextBoxMultipleLines.h"
-#include "src/OgameWindow/Button/Button.h"
-#include "src/ButtonsFunc/ButtonsFunc.h"
+﻿#include "includes.h"
+
+using DO_ptr = std::shared_ptr<DisplayObject>;
 
 void OptionSetting(void) {
 	User::Setting::SetThemeID(0);
@@ -21,7 +12,7 @@ void OptionSetting(void) {
 	System::SetTerminationTriggers(UserAction::NoAction);
 }
 
-void UserInput(bool& isFullScreen, bool textBoxIsSelected) {
+void UserInput(bool& _isFullScreen, bool _textBoxIsSelected) {
 	if (KeyF3.down()) {
 		if (Debug::isDebugMode) {
 			Debug::isDebugMode = false;
@@ -41,19 +32,19 @@ void UserInput(bool& isFullScreen, bool textBoxIsSelected) {
 
 	{
 		if (KeyF11.down()) {
-			if (isFullScreen) {
+			if (_isFullScreen) {
 				Window::SetFullscreen(false);
-				isFullScreen = false;
+				_isFullScreen = false;
 			}
 			else {
 				Window::SetFullscreen(true);
-				isFullScreen = true;
+				_isFullScreen = true;
 			}
 		}
 	}
 
 	{
-		if (User::Setting::GetInputMode() == 2 and not textBoxIsSelected) {
+		if (User::Setting::GetInputMode() == 2 and not _textBoxIsSelected) {
 			if (KeyQ.down()) {
 				User::State::SetDrawingColorID(0);
 				User::State::SetSelectedColorID(0);
@@ -144,15 +135,31 @@ void ButtonsSetting(Array<OgameWindow::Button>& buttons) {
 }
 
 void Main(){
-
 	bool isFullScreen = false;
 
-	OgameWindow::MenuBar menuBar{};
-	OgameWindow::ColorPalette colorPalette{ Point(10, 35) };
-	OgameWindow::Canvas canvas{ Point(colorPalette.getSize().x + colorPalette.getPosition().x + 10, 35) };
-	OgameWindow::StatusBar statusBar{};
-	OgameWindow::TextBoxMultipleLines inputTextBox{ true, U"Input" };
-	OgameWindow::TextBoxMultipleLines outputTextBox{ false, U"Output" };
+	void temp();
+
+	//DisplayObjectManager manager{};
+	DisplayObjectManager::Create();
+	DisplayObjectManager& manager = DisplayObjectManager::GetInstance();
+	//OgameWindow::MenuBar menuBar{};
+	DO_ptr menuBar{ new OgameWindow::MenuBar() };
+	manager << menuBar;
+	//OgameWindow::ColorPalette colorPalette{ Point(10, 35) };
+	DO_ptr colorPalette{ new OgameWindow::ColorPalette(Point(10, 35)) };
+	manager << colorPalette;
+	//OgameWindow::Canvas canvas{ Point(colorPalette.getSize().x + colorPalette.getPosition().x + 10, 35) };
+	DO_ptr canvas{ new OgameWindow::Canvas(Point(colorPalette->getSize().x + colorPalette->getPosition().x + 10, 35)) };
+	manager << canvas;
+	//OgameWindow::StatusBar statusBar{};
+	DO_ptr statusBar{ new OgameWindow::StatusBar() };
+	manager << statusBar;
+	//OgameWindow::TextBoxMultipleLines inputTextBox{ true, U"Input" };
+	DO_ptr inputTextBox{ new OgameWindow::TextBoxMultipleLines(true, U"Input") };
+	manager << inputTextBox;
+	//OgameWindow::TextBoxMultipleLines outputTextBox{ false, U"Output" };
+	DO_ptr outputTextBox{ new OgameWindow::TextBoxMultipleLines(false, U"Output") };
+	manager << outputTextBox;
 	Array<OgameWindow::Button> buttons = {
 		OgameWindow::Button(U"Run", U"Run", Point(90, 40), 20), 
 		OgameWindow::Button(U"Step", U"Step", Point(90, 40), 20 ),
@@ -177,16 +184,31 @@ void Main(){
 
 	String text;
 
-	//TextEditState tempda;
-
-	//constexpr Rect area{ 50, 50, 700, 300 };
+	Size previousSceneSize = Size();
 
 	while (System::Update()) {
 		User::State::SetNowSelectObjectID(-1);
 
-		UserInput(isFullScreen, inputTextBox.getIsSelected());
+		if (previousSceneSize != Scene::Size()) {
+			Console << U"SceneSize is changed.";
+			previousSceneSize = Scene::Size();
+			menuBar->reload(Point(0, 0), menuBar->getSize());
+			colorPalette->reload(Point(10, 35), colorPalette->getSize());
+			canvas->reload(Point(colorPalette->getSize().x + colorPalette->getPosition().x + 10, 35), canvas->getSize());
+			statusBar->reload(Point(0, 0), statusBar->getSize());
+			Point temp = canvas->getPosition() + Point(0, canvas->getSize().y + 50);
+			inputTextBox->reload(Point((Scene::Size().x - temp.x - 20) / 2 - 5, Scene::Size().y - temp.y - statusBar->getSize().y - 30), Size(100, 100));
+			//outputTextBox->reload();
+		}
+		else {
+			Console << U"SceneSize is not changed.";
+		}
 
-		canvas.update(Point(colorPalette.getSize().x + colorPalette.getPosition().x + 10, 35));
+		UserInput(isFullScreen, inputTextBox->getIsSelected());
+
+		manager.update();
+
+		/*canvas.update(Point(colorPalette.getSize().x + colorPalette.getPosition().x + 10, 35));
 		colorPalette.update(Point(10, 35));
 		statusBar.update(canvas);
 
@@ -230,7 +252,7 @@ void Main(){
 
 		//SimpleGUI::TextBox(tempda, Vec2(400, 400));
 
-		//SimpleGUI::TextBoxMultipleLines(temp, Point(500, 200), Point(400, 600));
+		//SimpleGUI::TextBoxMultipleLines(temp, Point(500, 200), Point(400, 600));*/
 
 		Debug::Display(debugPos, debugFont);
 

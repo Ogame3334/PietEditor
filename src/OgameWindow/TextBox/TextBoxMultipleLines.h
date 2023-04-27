@@ -1,12 +1,12 @@
 ﻿#pragma once
 
 #include <Siv3D.hpp>
-#include "../../ParentClass/ClickableObject.h"
+#include "../../ParentClass/DisplayObject.h"
 #include "ScrollBar.h"
 #include "../../User/User.h"
 
 namespace OgameWindow {
-	class TextBoxMultipleLines : public ClickableObject {
+	class TextBoxMultipleLines : public DisplayObject {
 	private:
 		ScrollBar scrollBar;
 		Rect textBox;
@@ -56,8 +56,10 @@ namespace OgameWindow {
 
 		bool getIsSelected() const { return this->isSelected; }
 
+		void reload(const Point&, const Size&) override;
 		void draw() override;
 		void inputUpdate() override;
-		void update(const Point& _pos, const Point& _size);
+		//void update(const Point& _pos, const Point& _size);
+		void update() override;
 	};
 }

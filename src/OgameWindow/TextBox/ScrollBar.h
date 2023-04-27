@@ -1,11 +1,11 @@
 ﻿#pragma once
 
 #include <Siv3D.hpp>
-#include "../../ParentClass/ClickableObject.h"
+#include "../../ParentClass/DisplayObject.h"
 #include "UpDownButton.h"
 
 namespace OgameWindow {
-	class ScrollBar : public ClickableObject {
+	class ScrollBar : public DisplayObject {
 	private:
 		const uint32 Width = 16;
 

@@ -8,7 +8,7 @@ namespace OgameWindow {
 		Console << U"\"" << this->displayName << U"\"が押された";
 	}
 
-	void MenuButton::update(const Point& _pos) {
+	/*void MenuButton::update(const Point& _pos) {
 		ClickableObject::update(_pos);
 		auto word = this->font(this->displayName);
 		Point size{ (int)word.region().size.x + 6, (int)word.region().size.y };
@@ -21,12 +21,27 @@ namespace OgameWindow {
 		setSize(Point(frame.w, frame.h));
 		setClickableRange(frame);
 		//Console << GetPosition();
+	}*/
+
+	void MenuButton::reload(const Point& _pos, const Size& _size) {
+		DisplayObject::reload(_pos, _size);
+		auto word = this->font(this->displayName);
+		Point _size_00{ (int)word.region().size.x + 6, (int)word.region().size.y };
+		Rect frame;
+		if (this->width == 0)
+			frame = Rect{ _pos.x, _pos.y, _size_00.x, _size_00.y };
+		else {
+			frame = Rect{ _pos.x, _pos.y, this->width, _size_00.y };
+		}
+		setSize(Point(frame.w, frame.h));
+		setClickableRange(frame);
+		//Console << GetPosition();
 	}
 
 	void MenuButton::draw() {
 		//Console << GetPosition();
 		auto word = this->font(this->displayName);
-		Point size = getSize();
+		//Point size = getSize();
 		Rect frame = getClickableRange();
 		Point pos = getPosition();
 		if (Judge::IsCursorInRect(frame) and MouseL.pressed()) {
@@ -68,5 +83,9 @@ namespace OgameWindow {
 		setClickableRange(Rect(0, 0, 0, 0));
 		removeFunction();
 		setSize(Point(_width, (int)this->font(this->displayName).region().size.y));
+	}
+
+	void MenuButton::update() {
+
 	}
 }

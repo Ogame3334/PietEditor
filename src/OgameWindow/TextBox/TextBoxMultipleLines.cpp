@@ -129,8 +129,8 @@ namespace OgameWindow {
 	void TextBoxMultipleLines::drawCursor(Vec2 _penPos) {
 		this->cursorTimer += Scene::DeltaTime();
 		if (this->cursorTimer > 0 and this->cursorTimer <= 0.6) {
-			Line line{ _penPos + Point(0, 2), _penPos + Point(0, (int)this->font.height() - 2) };
-			line.draw(1, this->themePtr->TextBoxCursorColor);
+			Line _line{ _penPos + Point(0, 2), _penPos + Point(0, (int)this->font.height() - 2) };
+			_line.draw(1, this->themePtr->TextBoxCursorColor);
 		}
 		else if (this->cursorTimer > 1.2) {
 			this->cursorTimer -= 1.2;
@@ -203,9 +203,9 @@ namespace OgameWindow {
 				this->scrollBar.setRegionHeight(this->textBox.h);
 			}
 			this->editingText = TextInput::GetEditingText();
-			auto text = this->font(this->editingText);
-			text.region(this->textPenPos).draw(this->themePtr->TextBoxBackColor);
-			text.draw(this->textPenPos, this->themePtr->TextBoxFontColor);
+			auto _text = this->font(this->editingText);
+			_text.region(this->textPenPos).draw(this->themePtr->TextBoxBackColor);
+			_text.draw(this->textPenPos, this->themePtr->TextBoxFontColor);
 		}
 	}
 
@@ -213,6 +213,32 @@ namespace OgameWindow {
 		if (this->canEdit) {
 			Cursor::RequestStyle(CursorStyle::IBeam);
 		}
+	}
+
+	void TextBoxMultipleLines::reload(const Point& _pos, const Size& _size) {
+		DisplayObject::reload(_pos, _size);
+		int scrollBarWidth = this->scrollBar.getSize().x;
+		setClickableRange(Rect(_pos, Point(_size.x - scrollBarWidth, _size.y)));
+		setSize(getClickableRange().size + Point(scrollBarWidth, 0));
+		double value = this->scrollBar.updateDouble(_pos + Point(_size.x - scrollBarWidth, 0), _size.y);
+		this->scrollBar.setDisplayHeight(_size.y);
+		this->textBox.setSize(Point(_size.x - 2 * Padding - scrollBarWidth, this->textBox.size.y));
+		this->textBox.setPos(_pos + Point(Padding, Padding - (int)(value * (this->textBox.h - (_size.y - 2 * Padding)))));
+		Rect outOfRange{ _pos, _size + Point(scrollBarWidth, 0) };
+		if (not outOfRange.mouseOver() and MouseL.down())
+			this->isSelected = false;
+		textInput();
+		whenTextChange();
+		if (User::State::GetMode() == Mode::DEBUG)
+			setEnable(false);
+		else
+			setEnable(true);
+		//Console << value;
+		//Console << m_EditIndex;
+		this->textBox = Rect(
+			_pos + Point(Padding, Padding),
+			Point(size.x - 2 * Padding - this->scrollBar.getSize().x, this->textBox.size.y)
+		);
 	}
 
 	void TextBoxMultipleLines::draw() {
@@ -234,12 +260,16 @@ namespace OgameWindow {
 	}
 
 	void TextBoxMultipleLines::inputUpdate() {
-		ClickableObject::inputUpdate();
+		DisplayObject::inputUpdate();
 		this->scrollBar.inputUpdate();
 	}
 
-	void TextBoxMultipleLines::update(const Point& _pos, const Point& _size) {
-		ClickableObject::update(_pos);
+	void TextBoxMultipleLines::update() {
+
+	}
+
+	/*void TextBoxMultipleLines::update(const Point& _pos, const Point& _size) {
+		DisplayObject::update();
 		int scrollBarWidth = this->scrollBar.getSize().x;
 		setClickableRange(Rect(_pos, Point(_size.x - scrollBarWidth, _size.y)));
 		setSize(getClickableRange().size + Point(scrollBarWidth, 0));
@@ -258,9 +288,9 @@ namespace OgameWindow {
 			setEnable(true);
 		//Console << value;
 		//Console << m_EditIndex;
-		/*m_TextBox = Rect(
+		m_TextBox = Rect(
 			pos + Point(Padding, Padding),
 			Point(size.x - 2 * Padding - m_ScrollBar.GetSize().x, m_TextBox.size.y)
-		);*/
-	}
+		);
+	}*/
 }

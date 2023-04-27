@@ -3,9 +3,10 @@
 #include <Siv3D.hpp>
 #include "Codel.h"
 #include "CanvasBackground.h"
+#include "../../ParentClass/DisplayObject.h"
 
 namespace OgameWindow {
-	class Canvas : public ClickableObject{
+	class Canvas : public DisplayObject{
 	private:
 		Point canvasWidthHeight;
 		Point localPos;
@@ -17,12 +18,14 @@ namespace OgameWindow {
 		void move(const Point& _pos);
 
 		/// @brief キャンバスを再生成
-		void reload();
+		void init();
 
 		/// @brief ユーザー入力
 		void userInput();
 		
 	public:
+		Canvas() = default;
+
 		/// @brief Canvasのコンストラクタ
 		/// @param pos 座標
 		Canvas(const Point& _pos);
@@ -43,6 +46,8 @@ namespace OgameWindow {
 		/// @return コーデル配列
 		Array<Codel> getCodels() const { return this->codels; }
 
+		void reload(const Point&, const Size&) override;
+
 		/// @brief オブジェクトを画面に表示する関数
 		/// @brief whileでUpdate, InputUpdateの後に呼び出される
 		void draw() override;
@@ -51,6 +56,6 @@ namespace OgameWindow {
 		void inputUpdate() override;
 		/// @brief オブジェクトの状態を更新するメソッド
 		/// @param pos オブジェクトの座標
-		void update(const Point& _pos) override;
+		//void update() override;
 	};
 }

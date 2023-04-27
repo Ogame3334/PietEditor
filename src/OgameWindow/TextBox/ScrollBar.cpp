@@ -58,7 +58,7 @@ namespace OgameWindow {
 
 	void ScrollBar::inputUpdate() {
 		if (this->enable) {
-			ClickableObject::inputUpdate();
+			DisplayObject::inputUpdate();
 			this->upButton.inputUpdate();
 			this->downButton.inputUpdate();
 			if (this->isHolding) {
@@ -68,15 +68,16 @@ namespace OgameWindow {
 		}
 	}
 
-	double ScrollBar::updateDouble(const Point& pos, int height) {
-		ClickableObject::update(pos);
+	double ScrollBar::updateDouble(const Point& _pos, int height) {
+		DisplayObject::update();
 		setSize(Point(getSize().x, height));
 		if (MouseL.up())
 			this->isHolding = false;
 		//uint32 height = GetSize().y;
 		this->region = Rect(getPosition(), Width, height);
-		this->upButton.update(pos);
-		this->downButton.update(pos + Point(0, height - Width));
+		this->upButton.update();
+		//this->downButton.update(_pos + Point(0, height - Width));
+		this->downButton.update();
 		this->bar = Rect(getPosition() + Point(2, Width * 11 / 10 + this->barLocalPosY), Width - 4, (int)((height - 2 * Width) * ((float)this->displayHeight / this->regionHeight)));
 		setClickableRange(bar);
 

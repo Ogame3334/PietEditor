@@ -44,6 +44,16 @@ namespace OgameWindow {
 		this->id = _id;
 	}
 
+	void MenuBox::reload(const Point& _pos, const Size& _size) {
+		DisplayObject::reload(_pos, _size);
+		this->outline.pos = _pos;
+		int i = 0;
+		for (auto& button : this->buttons) {
+			button.reload(_pos + Point(0, button.getSize().y * i + 3), button.getSize());
+			i++;
+		}
+	}
+
 	void MenuBox::draw() {
 		Point pos = getPosition();
 		//m_Outline.draw(Palette::Lightgray);
@@ -60,7 +70,7 @@ namespace OgameWindow {
 		}
 	}
 
-	void MenuBox::update(const Point& _pos) {
+	/*void MenuBox::update(const Point& _pos) {
 		DisplayObject::update(_pos);
 		this->outline.pos = _pos;
 		int i = 0;
@@ -68,5 +78,9 @@ namespace OgameWindow {
 			button.update(_pos + Point(0, button.getSize().y * i + 3));
 			i++;
 		}
+	}*/
+
+	void MenuBox::update() {
+
 	}
 }

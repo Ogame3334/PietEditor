@@ -14,13 +14,23 @@ namespace OgameWindow {
 		if (Judge::IsCursorInRect(this->tile))
 			User::State::SetDrawingColorID(this->colorID);
 	}
+	void Codel::reload(const Point& _pos, const Size& _size) {
+		DisplayObject::reload(_pos, _size);
+		DisplayObject::setSize(Point(this->tile.w, this->tile.h));
+		DisplayObject::setClickableRange(this->tile);
+		if (User::State::GetMode() == Mode::DEBUG)
+			setEnable(false);
+		else
+			setEnable(true);
+	}
+
 	void Codel::draw() {
 		Point pos = DisplayObject::getPosition();
 		this->tile = Rect{ pos.x, pos.y, CodelSize, CodelSize };
 		this->tile.draw(Constants::Colors[this->colorID]);
 		this->tile.drawFrame(1, 0, Palette::Gray);
 	}
-	void Codel::update(const Point& _pos) {
+	/*void Codel::update(const Point& _pos) {
 		DisplayObject::setSize(Point(this->tile.w, this->tile.h));
 		ClickableObject::setClickableRange(this->tile);
 		ClickableObject::update(_pos);
@@ -28,5 +38,5 @@ namespace OgameWindow {
 			setEnable(false);
 		else
 			setEnable(true);
-	}
+	}*/
 }
